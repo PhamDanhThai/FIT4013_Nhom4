@@ -1,0 +1,9 @@
+﻿KẾT LUẬN THỰC NGHIỆM – ĐỀ TÀI 15
+Bộ dữ liệu: 6497 mẫu, 12 đặc trưng; train 5197, test 1300.
+Mô hình chọn theo CV MAE: KNN_A.
+CV MAE = 0.4256; Test MAE = 0.4019; RMSE = 0.6112; R² = 0.4942.
+Mô hình cơ sở có Test MAE = 0.6691; mức giảm MAE = 0.2672 điểm (+39.9%).
+Sai số có dấu trung bình = -0.0248; tỷ lệ sai số tuyệt đối >1 điểm = 10.77%.
+Mô hình được chọn trên tập train bằng kiểm định chéo; các chỉ số test là đánh giá trên tập giữ lại.
+Giới hạn: dữ liệu không cân đối theo điểm chất lượng, một cách chia dữ liệu, chưa kiểm tra dữ liệu ngoài UCI.
+Hướng mở rộng: đánh giá riêng đỏ/trắng, thử thêm mô hình, kiểm định tính ổn định qua nhiều lần chia.

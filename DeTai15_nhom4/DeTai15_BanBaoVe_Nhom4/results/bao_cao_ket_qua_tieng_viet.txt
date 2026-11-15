@@ -1,0 +1,12 @@
+﻿BÁO CÁO KẾT QUẢ THỰC NGHIỆM – ĐỀ TÀI 15
+Tổng số mẫu dữ liệu: 6497
+Số đặc trưng đầu vào: 12
+Số mẫu huấn luyện: 5197; số mẫu kiểm tra: 1300
+Mô hình được chọn theo MAE kiểm định chéo: KNN_A
+MAE kiểm định chéo: 0.4256
+MAE tập kiểm tra: 0.4019
+RMSE tập kiểm tra: 0.6112
+R² tập kiểm tra: 0.4942
+Giải thích: MAE và RMSE càng thấp càng tốt; R² càng gần 1 thường càng tốt.
+Mô hình được chọn bằng kiểm định chéo trên tập huấn luyện, không chọn theo điểm tập kiểm tra.
+Các kết quả chỉ mô tả chất lượng dự đoán trên bộ dữ liệu được sử dụng.
