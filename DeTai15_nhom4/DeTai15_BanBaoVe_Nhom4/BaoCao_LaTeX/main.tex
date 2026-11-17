@@ -1,0 +1,1332 @@
+\documentclass[12pt,a4paper,oneside]{article}
+\usepackage{fontspec}
+\setmainfont{Liberation Serif}
+\usepackage[vietnamese]{babel}
+\usepackage{geometry}
+\geometry{left=3cm,right=2cm,top=2.5cm,bottom=2.5cm}
+\usepackage{graphicx,booktabs,longtable,array,calc,amsmath,amssymb}
+\usepackage{setspace,fancyhdr,hyperref}
+\usepackage{needspace,etoolbox}
+\pretocmd{\section}{\Needspace{7\baselineskip}}{}{}
+\pretocmd{\subsection}{\Needspace{5\baselineskip}}{}{}
+\raggedbottom
+\hypersetup{hidelinks}
+\setstretch{1.38}
+\setlength{\parindent}{1cm}
+\setlength{\parskip}{5pt}
+\pagestyle{fancy}\fancyhf{}\fancyfoot[C]{Trang \thepage}
+\renewcommand{\headrulewidth}{0pt}
+\setcounter{tocdepth}{2}
+\begin{document}
+TRƯỜNG ĐẠI HỌC ĐẠI NAM
+
+\textbf{KHOA CÔNG NGHỆ THÔNG TIN}
+
+\includegraphics[width=1.65in,height=1.65in]{media/image1.png}
+
+\textbf{BÀI TẬP LỚN}
+
+\textbf{HỌC PHẦN: NHẬP MÔN HỌC MÁY (FIT4013)}
+
+\textbf{ĐỀ TÀI 15: DỰ ĐOÁN ĐIỂM CHẤT LƯỢNG RƯỢU VANG}
+
+\textbf{Giảng viên: ThS. Lê Thị Thùy Trang}
+
+\textbf{Sinh viên thực hiện:}
+
+\textbf{1. Phạm Danh Thái -- 1871020523}
+
+\textbf{2. Ngô Văn Hiếu -- 1871020234}
+
+\textbf{3. Phạm Anh Quân -- 1871020471}
+
+Lớp: CNTT 1809 \textbar{} Nhóm: 4
+
+\textbf{Hà Nội, năm 2026}
+\clearpage
+
+TRƯỜNG ĐẠI HỌC ĐẠI NAM
+
+\textbf{KHOA CÔNG NGHỆ THÔNG TIN}
+
+\includegraphics[width=1.65in,height=1.65in]{media/image1.png}
+
+\textbf{BÀI TẬP LỚN}
+
+\textbf{HỌC PHẦN: NHẬP MÔN HỌC MÁY (FIT4013)}
+
+\textbf{ĐỀ TÀI 15: DỰ ĐOÁN ĐIỂM CHẤT LƯỢNG RƯỢU VANG}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+TT & Mã SV & Họ và tên & Ngày sinh & Điểm số & Điểm chữ \\
+1 & 1871020523 & Phạm Danh Thái & & & \\
+2 & 1871020234 & Ngô Văn Hiếu & & & \\
+3 & 1871020471 & Phạm Anh Quân & & & \\
+\end{longtable}
+
+\textbf{CÁN BỘ CHẤM THI 1 CÁN BỘ CHẤM THI 2}
+
+(Ký, ghi rõ họ tên) (Ký, ghi rõ họ tên)
+
+\textbf{Hà Nội, năm 2026}
+
+\clearpage
+\tableofcontents
+\clearpage
+
+\section*{LỜI CAM ĐOAN VÀ TRẠNG THÁI BÁO CÁO}\addcontentsline{toc}{section}{LỜI CAM ĐOAN VÀ TRẠNG THÁI BÁO CÁO}
+
+Báo cáo trình bày phương pháp dự đoán điểm chất lượng rượu vang từ dữ
+liệu UCI Wine Quality. Các chỉ số ở Chương 4 được giữ theo bản báo cáo
+nguồn; nhóm cần đối chiếu lại với tệp metrics.csv và kết quả chạy chương
+trình trước khi nộp. Các nhận định về nguyên nhân sai số là giả thuyết
+nghiên cứu, không phải kết luận nhân quả. Nhóm chịu trách nhiệm kiểm tra
+tính tái lập và tính trung thực của số liệu.
+
+\section*{TÓM TẮT}\addcontentsline{toc}{section}{TÓM TẮT}
+
+Đề tài dự đoán điểm \texttt{quality} của 6.497 mẫu rượu vang UCI từ 11
+đặc trưng hóa lý và biến loại rượu. Dữ liệu được chia thành 5.197 mẫu
+huấn luyện và 1.300 mẫu kiểm thử (\texttt{random\_state=42}). Nhóm so
+sánh baseline, K-NN Regression và Decision Tree Regression với hai luồng
+tiền xử lý. K-NN luồng A đạt MAE = 0,4019; RMSE = 0,6112 và
+\(\text{R}^{\text{2}}\text{=}\text{0}\text{,}\text{4942}\) trên tập kiểm
+thử, tốt nhất trong các cấu hình đã chạy. Báo cáo trình bày thống kê dữ
+liệu, kết quả định lượng, biểu đồ, phân tích sai số và giới hạn của phép
+thử.
+
+\clearpage
+\section*{CHƯƠNG 1. ĐẶT VẤN ĐỀ VÀ PHÂN TÍCH YÊU CẦU}\addcontentsline{toc}{section}{CHƯƠNG 1. ĐẶT VẤN ĐỀ VÀ PHÂN TÍCH YÊU CẦU}
+
+\subsection*{1.1. Bối cảnh ứng dụng}\addcontentsline{toc}{subsection}{1.1. Bối cảnh ứng dụng}
+
+Chất lượng rượu vang là một đại lượng đánh giá cảm quan chịu ảnh hưởng
+của nhiều yếu tố hóa lý. Việc xây dựng mô hình dự đoán từ các phép đo có
+thể hỗ trợ phân tích, sàng lọc và phát hiện các mẫu cần đánh giá kỹ hơn.
+Tuy nhiên, dự đoán từ đặc trưng hóa lý không đồng nghĩa thay thế hội
+đồng chuyên gia.
+
+Mục tiêu của đề tài là tạo quy trình có thể tái lập, định lượng được sai
+số và so sánh có căn cứ giữa những thuật toán cơ bản đã học. Kết quả
+không được diễn giải như một công cụ xác nhận chất lượng thương mại hoặc
+chứng nhận an toàn thực phẩm.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Ý nghĩa thực tiễn của bài toán}\par
+Trong kiểm soát chất lượng, một mô hình dự đoán có thể được sử dụng như công cụ hỗ trợ sàng lọc trước khi tổ chức đánh giá cảm quan. Các phép đo hóa lý thường được thu thập bằng quy trình thí nghiệm; mô hình chuyển các phép đo này thành một ước lượng có thể so sánh giữa các mẫu. Giá trị của phương pháp không nằm ở việc thay thế chuyên gia mà ở khả năng chuẩn hóa bước phân tích sơ bộ, giảm thao tác thủ công và chỉ ra các trường hợp cần xem xét kỹ. Khi áp dụng thực tế, tổ chức vẫn cần quy trình kiểm tra độc lập và cơ chế giải thích sai số.\par
+
+Trong phần nghiên cứu tiếp theo, có thể xây dựng một bảng kiểm gồm mục tiêu, dữ liệu cần thu thập, phép đo dự kiến và điều kiện chấp nhận. Bảng kiểm giúp chuyển các nhận định lý thuyết thành thao tác có thể kiểm chứng. Khi chưa có kết quả chạy bổ sung, nội dung này chỉ được trình bày dưới dạng phương án nghiên cứu, không ghi thành thành tích hoặc số liệu đã đạt.\par
+
+\subsection*{1.2. Phát biểu bài toán hồi quy}\addcontentsline{toc}{subsection}{1.2. Phát biểu bài toán hồi quy}
+
+Đầu vào là vector đặc trưng hóa lý
+\(\text{x}\text{∈}\text{ℝ}^{\text{p}}\) và thông tin loại rượu; đầu ra
+là điểm chất lượng \(\text{y}\) do chuyên gia đánh giá. Mục tiêu là học
+hàm \(\text{f}\left( \text{x} \right)\text{≈}\text{y}\) nhằm giảm sai số
+dự đoán trên dữ liệu chưa quan sát.
+
+Dù nhãn chất lượng nhận giá trị nguyên và có số mức hữu hạn, hướng dẫn
+học phần yêu cầu đặt bài toán là hồi quy. Do đó, mô hình dự đoán giá trị
+liên tục và các chỉ số đánh giá chính là MAE, RMSE và
+R².\(\text{R}^{\text{2}}\)
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Phân biệt hồi quy và phân loại}\par
+Bài toán hồi quy học ánh xạ từ không gian đặc trưng sang một giá trị số. Trong trường hợp nhãn chất lượng là số nguyên, hồi quy vẫn phù hợp khi mục tiêu là ước lượng mức điểm và đo độ lệch theo đơn vị điểm. Ngược lại, phân loại chỉ dự đoán một nhãn rời rạc và thường đánh giá bằng accuracy hoặc F1-score. Một dự đoán 5,8 không phải nhãn gốc nhưng có ý nghĩa như một ước lượng liên tục; việc làm tròn chỉ nên được cân nhắc ở bước hiển thị, không thay thế đánh giá MAE và RMSE.\par
+
+Trong phần nghiên cứu tiếp theo, có thể xây dựng một bảng kiểm gồm mục tiêu, dữ liệu cần thu thập, phép đo dự kiến và điều kiện chấp nhận. Bảng kiểm giúp chuyển các nhận định lý thuyết thành thao tác có thể kiểm chứng. Khi chưa có kết quả chạy bổ sung, nội dung này chỉ được trình bày dưới dạng phương án nghiên cứu, không ghi thành thành tích hoặc số liệu đã đạt.\par
+
+\subsection*{1.3. Nguồn và phạm vi dữ liệu}\addcontentsline{toc}{subsection}{1.3. Nguồn và phạm vi dữ liệu}
+
+Bộ dữ liệu được chỉ định là UCI Wine Quality, tại
+https://archive.ics.uci.edu/dataset/186/wine+quality. Tài liệu gốc mô tả
+các phép đo hóa lý và điểm chất lượng. Dự án sử dụng hai tệp CSV rượu đỏ
+và rượu trắng, ghép dữ liệu và thêm biến \texttt{wine\_type} để nhận
+biết nguồn mẫu.
+
+Dữ liệu có tính quan sát, không chứng minh quan hệ nhân quả. Đặc trưng
+và phân phối mẫu có thể khác khi triển khai ngoài phạm vi nguồn dữ liệu
+ban đầu. Không suy rộng hiệu quả trên bộ dữ liệu này thành hiệu quả ở
+mọi nhà sản xuất hay niên vụ.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Khả năng đại diện của dữ liệu}\par
+Dữ liệu từ một nguồn công khai tạo điều kiện để người học so sánh phương pháp và tái lập phép thử. Tuy nhiên, mẫu được thu thập trong một bối cảnh nhất định có thể không đại diện cho các vùng trồng nho, mùa vụ hoặc quy trình sản xuất khác. Sự khác biệt giữa dữ liệu huấn luyện và dữ liệu sử dụng sau này được gọi là dịch chuyển phân phối. Để đánh giá khả năng chuyển giao, cần có tập kiểm thử độc lập theo thời gian hoặc nguồn thu thập; báo cáo hiện tại chưa cung cấp bằng chứng như vậy.\par
+
+Trong phần nghiên cứu tiếp theo, có thể xây dựng một bảng kiểm gồm mục tiêu, dữ liệu cần thu thập, phép đo dự kiến và điều kiện chấp nhận. Bảng kiểm giúp chuyển các nhận định lý thuyết thành thao tác có thể kiểm chứng. Khi chưa có kết quả chạy bổ sung, nội dung này chỉ được trình bày dưới dạng phương án nghiên cứu, không ghi thành thành tích hoặc số liệu đã đạt.\par
+
+\subsection*{1.4. Các tiêu chí thành công}\addcontentsline{toc}{subsection}{1.4. Các tiêu chí thành công}
+
+Một thí nghiệm hợp lệ phải dùng đúng dữ liệu, mô tả rõ cách tách
+train/test, ngăn rò rỉ thông tin và công bố ngẫu nhiên hóa. Các phép
+biến đổi có tham số phải được fit riêng trong từng fold huấn luyện.
+
+Một kết quả có giá trị phải so sánh được với baseline, có tối thiểu hai
+phương án có ý nghĩa, có bảng MAE, RMSE, \(\text{R}^{\text{2}}\) và phân
+tích lỗi. Mọi nhận định tốt hơn/kém hơn phải dựa trên kết quả đã chạy,
+không chỉ dựa trên lý thuyết.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Tiêu chí đánh giá chất lượng thí nghiệm}\par
+Một quy trình tốt phải có tính đúng đắn, tính minh bạch và khả năng lặp lại. Tính đúng đắn yêu cầu biến mục tiêu không đi vào đầu vào, dữ liệu kiểm thử không tác động đến quá trình lựa chọn mô hình và độ đo được tính nhất quán. Tính minh bạch yêu cầu mô tả tập dữ liệu, siêu tham số, phiên bản công cụ và giới hạn của phép thử. Khả năng lặp lại yêu cầu mã nguồn, hạt giống ngẫu nhiên và tệp kết quả có thể được kiểm tra bởi người khác. Các tiêu chí này bổ sung cho độ chính xác dự đoán.\par
+
+Trong phần nghiên cứu tiếp theo, có thể xây dựng một bảng kiểm gồm mục tiêu, dữ liệu cần thu thập, phép đo dự kiến và điều kiện chấp nhận. Bảng kiểm giúp chuyển các nhận định lý thuyết thành thao tác có thể kiểm chứng. Khi chưa có kết quả chạy bổ sung, nội dung này chỉ được trình bày dưới dạng phương án nghiên cứu, không ghi thành thành tích hoặc số liệu đã đạt.\par
+
+\subsection*{1.5. Các câu hỏi nghiên cứu}\addcontentsline{toc}{subsection}{1.5. Các câu hỏi nghiên cứu}
+
+Câu hỏi thứ nhất: K-NN và Cây quyết định có khác biệt như thế nào về sai
+số dự đoán? Câu hỏi thứ hai: thay đổi chuẩn hóa và chọn đặc trưng có làm
+thay đổi chất lượng dự đoán? Câu hỏi thứ ba: sai số tập trung ở những
+mức điểm chất lượng nào?
+
+Câu hỏi thứ tư: siêu tham số như số láng giềng, độ sâu cây và số mẫu tối
+thiểu ở lá ảnh hưởng thế nào đến khả năng khái quát? Câu hỏi thứ năm:
+giới hạn nào của dữ liệu khiến các kết quả khó áp dụng trực tiếp ngoài
+thực tế?
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Từ câu hỏi nghiên cứu đến giả thuyết}\par
+Mỗi câu hỏi nên gắn với một phép so sánh có thể kiểm chứng. Chẳng hạn, ảnh hưởng của chuẩn hóa có thể được khảo sát bằng cách giữ cố định mô hình, cách chia dữ liệu và lưới tham số rồi thay đổi riêng bộ chuẩn hóa. Đối với lựa chọn đặc trưng, cần ghi lại tập đặc trưng được chọn trong từng fold để hiểu kết quả. Đối với nhóm điểm hiếm, nên tính độ đo theo nhóm và báo cáo số lượng mẫu. Đây là các đề xuất mở rộng, không phải kết quả đã đo trong lần chạy hiện tại.\par
+
+Trong phần nghiên cứu tiếp theo, có thể xây dựng một bảng kiểm gồm mục tiêu, dữ liệu cần thu thập, phép đo dự kiến và điều kiện chấp nhận. Bảng kiểm giúp chuyển các nhận định lý thuyết thành thao tác có thể kiểm chứng. Khi chưa có kết quả chạy bổ sung, nội dung này chỉ được trình bày dưới dạng phương án nghiên cứu, không ghi thành thành tích hoặc số liệu đã đạt.\par
+
+\subsection*{1.6. Đặc trưng đầu vào và biến mục tiêu}\addcontentsline{toc}{subsection}{1.6. Đặc trưng đầu vào và biến mục tiêu}
+
+Các cột thường gặp gồm fixed acidity, volatile acidity, citric acid,
+residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide,
+density, pH, sulphates, alcohol. Nhóm bổ sung wine\_type khi ghép hai
+tệp để mô hình có thể phân biệt loại rượu.
+
+Biến \texttt{quality} được giữ làm mục tiêu duy nhất và loại khỏi ma
+trận đầu vào trước mọi phép biến đổi. Các chỉ số thống kê thực tế của
+từng cột sẽ lấy từ tệp \texttt{descriptive\_statistics.csv} sau khi
+chạy.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Vai trò của từng nhóm biến}\par
+Nhóm biến độ axit mô tả các khía cạnh khác nhau của tính axit; các biến sulfur dioxide phản ánh những phép đo liên quan đến thành phần hóa học; alcohol, density và residual sugar phản ánh những tính chất khác của mẫu. Các đặc trưng có đơn vị đo và khoảng biến thiên không đồng nhất. Vì vậy, một khoảng cách Euclid tính trực tiếp trên dữ liệu thô có thể bị chi phối bởi biến có thang đo lớn. Cần xem xét phân phối, đơn vị và quan hệ giữa các biến trước khi đưa vào mô hình dựa trên khoảng cách.\par
+
+Trong phần nghiên cứu tiếp theo, có thể xây dựng một bảng kiểm gồm mục tiêu, dữ liệu cần thu thập, phép đo dự kiến và điều kiện chấp nhận. Bảng kiểm giúp chuyển các nhận định lý thuyết thành thao tác có thể kiểm chứng. Khi chưa có kết quả chạy bổ sung, nội dung này chỉ được trình bày dưới dạng phương án nghiên cứu, không ghi thành thành tích hoặc số liệu đã đạt.\par
+
+\subsection*{1.7. Khảo sát dữ liệu thiếu và trùng lặp}\addcontentsline{toc}{subsection}{1.7. Khảo sát dữ liệu thiếu và trùng lặp}
+
+Trước khi huấn luyện, chương trình kiểm tra kiểu dữ liệu, giá trị thiếu
+và phân phối nhãn. Dữ liệu trùng lặp phải được nhận diện và giải thích
+chính sách xử lý, vì những bản ghi giống nhau có thể phản ánh phép đo
+lặp hoặc lỗi nhập liệu.
+
+Trong bản mã nguồn hiện tại, các bản ghi được giữ nguyên để không tự ý
+thay đổi bộ dữ liệu. Đây là một quyết định cần nêu rõ và có thể mở rộng
+bằng thí nghiệm loại trùng lặp, nhưng không được lựa chọn phương án dựa
+vào tập kiểm thử.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Chính sách xử lý dữ liệu thiếu và trùng}\par
+Giá trị thiếu có thể xuất hiện do lỗi thiết bị, lỗi nhập liệu hoặc quá trình tổng hợp dữ liệu. Điền trung vị là phương án tương đối bền vững với những phân phối lệch, nhưng phải học trung vị chỉ trên phần dữ liệu huấn luyện tương ứng. Bản ghi trùng có thể là phép đo lặp hợp lệ hoặc bản sao không mong muốn. Xóa trùng một cách máy móc có thể làm thay đổi phân phối dữ liệu. Một nghiên cứu bổ sung nên so sánh kết quả trước và sau khi xử lý trùng, đồng thời ghi lại số bản ghi bị ảnh hưởng.\par
+
+Trong phần nghiên cứu tiếp theo, có thể xây dựng một bảng kiểm gồm mục tiêu, dữ liệu cần thu thập, phép đo dự kiến và điều kiện chấp nhận. Bảng kiểm giúp chuyển các nhận định lý thuyết thành thao tác có thể kiểm chứng. Khi chưa có kết quả chạy bổ sung, nội dung này chỉ được trình bày dưới dạng phương án nghiên cứu, không ghi thành thành tích hoặc số liệu đã đạt.\par
+
+\subsection*{1.8. Khám phá phân phối chất lượng}\addcontentsline{toc}{subsection}{1.8. Khám phá phân phối chất lượng}
+
+Phân phối điểm chất lượng cho biết số mẫu ở từng mức nhãn, giúp xác định
+vùng điểm hiếm và nguy cơ mô hình ưu tiên vùng phổ biến. Biểu đồ cột
+được xuất từ tập dữ liệu để người đọc kiểm tra trực quan.
+
+Nếu điểm thấp hoặc cao xuất hiện ít, cần xem xét MAE theo từng nhóm điểm
+và không chỉ sử dụng sai số trung bình. Mẫu hiếm có thể tạo sai số lớn
+dù MAE chung tương đối nhỏ.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Tác động của mất cân bằng nhãn}\par
+Khi phần lớn quan sát tập trung ở các mức chất lượng trung bình, một thuật toán tối thiểu hóa sai số toàn cục có xu hướng dự đoán gần các mức phổ biến. Điều này có thể làm chỉ số tổng thể trông khả quan trong khi hiệu quả với các mức chất lượng hiếm lại kém. Để phát hiện vấn đề, có thể lập bảng số mẫu, MAE và sai số trung vị cho từng mức điểm thực tế. Khi số mẫu của một nhóm quá nhỏ, chỉ số nhóm cần được diễn giải thận trọng vì có độ biến động lớn.\par
+
+Trong phần nghiên cứu tiếp theo, có thể xây dựng một bảng kiểm gồm mục tiêu, dữ liệu cần thu thập, phép đo dự kiến và điều kiện chấp nhận. Bảng kiểm giúp chuyển các nhận định lý thuyết thành thao tác có thể kiểm chứng. Khi chưa có kết quả chạy bổ sung, nội dung này chỉ được trình bày dưới dạng phương án nghiên cứu, không ghi thành thành tích hoặc số liệu đã đạt.\par
+
+\subsection*{1.9. Khảo sát ngoại lệ và tương quan}\addcontentsline{toc}{subsection}{1.9. Khảo sát ngoại lệ và tương quan}
+
+Histogram và boxplot của các biến số giúp phát hiện phân phối lệch, đuôi
+dài và điểm cực trị. Ma trận tương quan cung cấp tín hiệu ban đầu về
+quan hệ tuyến tính giữa đặc trưng và mục tiêu.
+
+Tương quan không đồng nghĩa quan hệ nhân quả. Đặc trưng có tương quan
+thấp vẫn có thể hữu ích với mô hình phi tuyến; ngược lại, tương quan cao
+giữa các đặc trưng có thể gây dư thừa thông tin.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Ý nghĩa của phân tích khám phá}\par
+Phân tích khám phá dữ liệu giúp nhận diện sai lệch phân phối, các điểm cực trị và quan hệ giữa các biến. Histogram cho biết hình dạng phân phối; boxplot tóm tắt trung vị, các tứ phân vị và quan sát nằm ngoài khoảng quy ước; scatter plot hỗ trợ xem quan hệ giữa hai biến. Hệ số tương quan Pearson chỉ phản ánh xu hướng tuyến tính và có thể bị ảnh hưởng bởi ngoại lệ. Không nên loại bỏ đặc trưng chỉ vì tương quan tuyến tính thấp nếu chưa kiểm tra tác động đến độ đo kiểm định chéo.\par
+
+Trong phần nghiên cứu tiếp theo, có thể xây dựng một bảng kiểm gồm mục tiêu, dữ liệu cần thu thập, phép đo dự kiến và điều kiện chấp nhận. Bảng kiểm giúp chuyển các nhận định lý thuyết thành thao tác có thể kiểm chứng. Khi chưa có kết quả chạy bổ sung, nội dung này chỉ được trình bày dưới dạng phương án nghiên cứu, không ghi thành thành tích hoặc số liệu đã đạt.\par
+
+\subsection*{1.10. Giới hạn và giả định ban đầu}\addcontentsline{toc}{subsection}{1.10. Giới hạn và giả định ban đầu}
+
+Dữ liệu có thể mang thiên lệch chọn mẫu và thiên lệch người đánh giá.
+Chất lượng là điểm cảm quan, trong khi đầu vào chủ yếu là phép đo hóa
+lý; một số yếu tố ảnh hưởng đến trải nghiệm không được quan sát.
+
+Báo cáo giả định cách đo và thang điểm của dữ liệu nguồn đủ nhất quán để
+mô hình học được quy luật thống kê. Giả định này cần được nhắc lại khi
+thảo luận sai số và khả năng chuyển giao.
+
+Các thành phần dữ liệu và vai trò trong dự án
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.3104}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.6896}}@{}}
+\caption[Các thành phần dữ liệu và vai trò trong dự án]{Các thành phần
+dữ liệu và vai trò trong dự án}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Thành phần
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Vai trò
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Thành phần
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Vai trò
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+11 đặc trưng hóa lý & Biến giải thích định lượng \\
+wine\_type & Biến nhận biết rượu đỏ/trắng, do nhóm tạo \\
+quality & Biến mục tiêu hồi quy, không được đưa vào \(\text{X}\) \\
+\end{longtable}
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Giới hạn diễn giải mô hình}\par
+Điểm cảm quan là kết quả đánh giá của con người và có thể chịu ảnh hưởng của bối cảnh thử nếm, kinh nghiệm và sở thích. Mô hình chỉ quan sát các biến có trong tập dữ liệu nên không thể khôi phục hoàn toàn những yếu tố không được đo. Do vậy, sai số không nhất thiết chỉ phản ánh chất lượng thuật toán; nó còn liên quan đến chất lượng nhãn và mức độ đầy đủ của đặc trưng. Khi báo cáo, cần phân biệt quan hệ thống kê, dự đoán và suy luận nguyên nhân.\par
+
+Trong phần nghiên cứu tiếp theo, có thể xây dựng một bảng kiểm gồm mục tiêu, dữ liệu cần thu thập, phép đo dự kiến và điều kiện chấp nhận. Bảng kiểm giúp chuyển các nhận định lý thuyết thành thao tác có thể kiểm chứng. Khi chưa có kết quả chạy bổ sung, nội dung này chỉ được trình bày dưới dạng phương án nghiên cứu, không ghi thành thành tích hoặc số liệu đã đạt.\par
+
+\clearpage
+\section*{CHƯƠNG 2. THIẾT KẾ GIẢI PHÁP VÀ QUY TRÌNH HỌC MÁY}\addcontentsline{toc}{section}{CHƯƠNG 2. THIẾT KẾ GIẢI PHÁP VÀ QUY TRÌNH HỌC MÁY}
+
+\subsection*{2.1. Kiến trúc pipeline tổng thể}\addcontentsline{toc}{subsection}{2.1. Kiến trúc pipeline tổng thể}
+
+Quy trình gồm: lấy dữ liệu, kiểm tra tính hợp lệ, EDA, chia train/test,
+xây dựng pipeline tiền xử lý, tìm siêu tham số bằng kiểm định chéo trên
+train, huấn luyện lại trên train và đánh giá một lần trên test.
+
+Mỗi bước được gắn với một đầu ra kiểm chứng được: CSV thống kê, bảng
+tham số, bảng metric và biểu đồ sai số. Việc tách các bước giúp dễ phát
+hiện lỗi và tái lập.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Các bước của quy trình học máy}\par
+Một quy trình thực nghiệm có thể được tổ chức thành các bước liên tiếp: xác định mục tiêu, kiểm tra dữ liệu, tách dữ liệu, xây dựng các phép biến đổi, lựa chọn mô hình, tối ưu siêu tham số và đánh giá ngoài mẫu. Mỗi bước cần tạo ra dấu vết kiểm chứng, ví dụ tệp thống kê mô tả, danh sách tham số hoặc biểu đồ sai số. Cách tổ chức này giúp tránh tình trạng chỉ lưu kết quả cuối cùng mà không thể truy nguyên cách tạo ra kết quả. Pipeline cũng tạo điều kiện tái sử dụng các phép biến đổi nhất quán khi dự đoán mẫu mới.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.2. Thiết kế chia dữ liệu}\addcontentsline{toc}{subsection}{2.2. Thiết kế chia dữ liệu}
+
+Sử dụng tỷ lệ 80\% huấn luyện và 20\% kiểm thử,
+\texttt{random\_state=42}. Không dùng tập test để fit bộ chuẩn hóa, bộ
+chọn đặc trưng hoặc tìm siêu tham số.
+
+Do đây là hồi quy, chương trình dùng phép chia ngẫu nhiên thông thường.
+Nếu cần bảo đảm đại diện theo mức điểm chất lượng, có thể nghiên cứu
+chia có phân tầng theo các mức rời rạc, nhưng phải nêu rõ lý do và không
+thay đổi thiết kế sau khi xem kết quả test.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Ý nghĩa của tập huấn luyện và tập kiểm thử}\par
+Tập huấn luyện dùng để học tham số mô hình và lựa chọn siêu tham số thông qua kiểm định chéo. Tập kiểm thử đóng vai trò dữ liệu chưa được quan sát trong toàn bộ quá trình phát triển mô hình. Nếu liên tục thay đổi thiết kế sau khi xem kết quả kiểm thử, tập kiểm thử sẽ dần trở thành một phần của quá trình lựa chọn và ước lượng hiệu quả có thể lạc quan. Vì vậy, cần quyết định trước các phương án thí nghiệm và chỉ dùng tập kiểm thử để đánh giá cuối cùng. Hạt giống ngẫu nhiên giúp tái lập phép chia nhưng không bảo đảm kết quả ổn định với mọi phép chia.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.3. Ngăn rò rỉ dữ liệu}\addcontentsline{toc}{subsection}{2.3. Ngăn rò rỉ dữ liệu}
+
+Rò rỉ dữ liệu xảy ra khi thông tin từ tập kiểm thử hoặc fold validation
+ảnh hưởng đến quá trình học. Ví dụ: chuẩn hóa toàn bộ dữ liệu trước khi
+chia train/test làm trung bình và độ lệch chuẩn chứa thông tin từ test.
+
+Giải pháp sử dụng \texttt{sklearn.pipeline.Pipeline}. Mỗi lần
+GridSearchCV tạo một fold, các bước imputer, scaler và selector chỉ fit
+trên phần train của fold; fold validation chỉ được transform.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Ví dụ về rò rỉ dữ liệu}\par
+Giả sử một bộ chuẩn hóa tính trung bình và độ lệch chuẩn trên toàn bộ dữ liệu trước khi chia tập. Khi đó, thống kê của tập kiểm thử đã ảnh hưởng đến cách biến đổi các mẫu huấn luyện. Tương tự, chọn đặc trưng bằng toàn bộ nhãn trước kiểm định chéo làm cho thông tin từ fold validation đi vào bước lựa chọn. Giải pháp là đặt mọi phép biến đổi có thao tác fit bên trong pipeline và để bộ kiểm định chéo huấn luyện lại chúng trên từng fold. Cách làm này mô phỏng chính xác hơn tình huống dự đoán trên dữ liệu chưa từng xuất hiện.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.4. Luồng A: tiền xử lý cơ bản}\addcontentsline{toc}{subsection}{2.4. Luồng A: tiền xử lý cơ bản}
+
+Luồng A dùng SimpleImputer(strategy=median) để xử lý giá trị thiếu nếu
+có, sau đó StandardScaler để đưa các đặc trưng về quy mô gần nhau. Cấu
+hình này phù hợp cho K-NN vốn nhạy với khoảng cách.
+
+Với Cây quyết định, chuẩn hóa không nhất thiết làm thay đổi cách chia
+ngưỡng trong trường hợp phép biến đổi đơn điệu. Giữ cùng luồng A giúp so
+sánh có cấu trúc nhưng cần giải thích rằng tác động của scaler lên Tree
+có thể nhỏ.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Chuẩn hóa theo độ lệch chuẩn}\par
+StandardScaler biến đổi từng biến bằng cách trừ trung bình và chia cho độ lệch chuẩn được ước lượng từ dữ liệu huấn luyện. Kết quả là các biến có quy mô gần nhau hơn, qua đó giảm nguy cơ một biến có đơn vị lớn chi phối khoảng cách. Tuy nhiên, StandardScaler không loại bỏ ngoại lệ và không biến phân phối lệch thành phân phối chuẩn. Khi áp dụng lên tập kiểm thử, bắt buộc dùng đúng trung bình và độ lệch chuẩn đã học từ tập huấn luyện, không tính lại theo tập kiểm thử.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.5. Luồng B: tiền xử lý cải tiến}\addcontentsline{toc}{subsection}{2.5. Luồng B: tiền xử lý cải tiến}
+
+Luồng B thay StandardScaler bằng RobustScaler và bổ sung
+SelectKBest(score\_func=f\_regression, k=8). RobustScaler dựa trên trung
+vị và khoảng tứ phân vị nên ít nhạy với ngoại lệ hơn.
+
+SelectKBest chọn đặc trưng dựa trên mối liên hệ đơn biến với mục tiêu.
+Đây là một giả định đơn giản có thể loại bỏ đặc trưng hữu ích trong
+tương tác phi tuyến; vì vậy cần kiểm tra kết quả thực nghiệm thay vì mặc
+định luồng B tốt hơn.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Lợi ích và đánh đổi của chọn đặc trưng}\par
+RobustScaler sử dụng trung vị và khoảng tứ phân vị để giảm ảnh hưởng của các điểm cực trị lên thang đo. SelectKBest với f\_regression đánh giá mối liên hệ tuyến tính đơn biến giữa từng đặc trưng và nhãn, sau đó chọn số lượng biến đã định. Hai thao tác này giải quyết các vấn đề khác nhau: một thao tác thay đổi quy mô, thao tác còn lại thay đổi không gian đặc trưng. Khi cả hai cùng thay đổi, không thể xác định bước nào gây ra chênh lệch hiệu năng nếu không tiến hành thí nghiệm tách riêng từng thành phần.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.6. K-Nearest Neighbors Regressor}\addcontentsline{toc}{subsection}{2.6. K-Nearest Neighbors Regressor}
+
+K-NN Regression dự đoán điểm chất lượng từ các mẫu gần nhất theo khoảng
+cách trong không gian đặc trưng. Khi weights=uniform, các láng giềng có
+trọng số bằng nhau; khi weights=distance, mẫu gần hơn được ưu tiên.
+
+Các giá trị k khảo sát gồm 3, 5, 9, 15. k nhỏ có thể dẫn đến phương sai
+cao và nhạy với nhiễu; k lớn làm mượt dự đoán nhưng có nguy cơ làm mất
+cấu trúc cục bộ. Cần tối ưu trên train bằng cross-validation.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Cơ chế dự đoán của K-NN}\par
+K-NN là phương pháp dựa trên ví dụ: để dự đoán cho một mẫu mới, thuật toán tìm những mẫu huấn luyện gần nhất theo một độ đo khoảng cách. Dự đoán hồi quy là trung bình của các nhãn láng giềng hoặc trung bình có trọng số theo khoảng cách. Giá trị k nhỏ làm mô hình bám sát dữ liệu cục bộ nhưng nhạy với nhiễu; k lớn giúp làm mượt nhưng có thể bỏ qua các cấu trúc nhỏ. Khi số chiều tăng, khoảng cách giữa các điểm có thể kém phân biệt hơn, vì vậy lựa chọn đặc trưng và chuẩn hóa có ý nghĩa quan trọng.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.7. Decision Tree Regressor}\addcontentsline{toc}{subsection}{2.7. Decision Tree Regressor}
+
+Cây quyết định hồi quy phân chia không gian đầu vào bằng các điều kiện
+ngưỡng để giảm sai số trong từng nút. Mô hình dễ diễn giải các quy tắc
+phân chia nhưng cây quá sâu có thể học cả nhiễu.
+
+Thí nghiệm khảo sát max\_depth bằng 4, 8, 12 hoặc không giới hạn, và
+min\_samples\_leaf bằng 1, 5, 10. Cây có thể mô hình hóa tương tác phi
+tuyến nhưng dự đoán thường là giá trị trung bình của vùng lá.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Cơ chế phân tách của cây hồi quy}\par
+Cây quyết định tạo các nút phân nhánh dựa trên điều kiện ngưỡng của đặc trưng. Mỗi lần chia hướng tới tạo các nhóm có nhãn ít biến thiên hơn, thường thông qua tiêu chí giảm sai số bình phương. Dự đoán tại một lá thường là trung bình nhãn của các mẫu huấn luyện rơi vào lá đó. Cây sâu có thể tạo các vùng rất nhỏ và học cả nhiễu, còn cây nông có thể bỏ lỡ cấu trúc phi tuyến. Các tham số độ sâu tối đa và số mẫu tối thiểu ở lá là những cách kiểm soát độ phức tạp.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.8. Thiết kế baseline}\addcontentsline{toc}{subsection}{2.8. Thiết kế baseline}
+
+Baseline tối thiểu là mô hình với cấu hình đơn giản làm mốc so sánh.
+Trong chương trình, tổ hợp KNN với luồng A và các giá trị tham số được
+đưa vào tìm kiếm, nhưng báo cáo nên bổ sung một lần chạy mặc định riêng
+để tạo baseline độc lập rõ ràng.
+
+Một lựa chọn phổ biến là DummyRegressor(strategy="mean"), dự đoán bằng
+trung bình nhãn tập huấn luyện. Mô hình cơ sở phải dùng cùng cách chia
+dữ liệu và cùng thước đo như các mô hình còn lại.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Vai trò của mô hình mốc}\par
+Một mô hình phức tạp chỉ có ý nghĩa thực tiễn khi thể hiện lợi ích so với một phương án đơn giản. DummyRegressor dự đoán hằng số từ tập huấn luyện là mốc tham chiếu phù hợp cho hồi quy. Mốc này không khai thác đặc trưng đầu vào, do đó chênh lệch MAE hoặc RMSE giữa mô hình học máy và baseline cho biết giá trị dự đoán bổ sung từ các đặc trưng. Baseline phải được huấn luyện và đánh giá trên cùng cách chia dữ liệu để phép so sánh có ý nghĩa.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.9. Thiết kế kiểm định chéo}\addcontentsline{toc}{subsection}{2.9. Thiết kế kiểm định chéo}
+
+Dùng KFold với 5 fold, shuffle=True, random\_state=42. GridSearchCV chọn
+cấu hình có MAE trung bình thấp nhất trên validation folds bằng
+scoring=neg\_mean\_absolute\_error.
+
+Sau khi chọn siêu tham số, GridSearchCV refit mô hình trên toàn bộ
+train. Chỉ sau đó mới tính MAE, RMSE, \(\text{R}^{\text{2}}\) trên test.
+Cách làm này hạn chế lựa chọn mô hình theo nhiễu của tập test.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Nguyên tắc kiểm định chéo K-Fold}\par
+Trong kiểm định chéo K-Fold, tập huấn luyện được chia thành K phần. Mỗi lượt dùng một phần làm validation và các phần còn lại làm train; sau K lượt, độ đo được tổng hợp để đánh giá cấu hình. Shuffle giúp thay đổi thứ tự mẫu trước khi chia, còn random\_state hỗ trợ tái lập. Kiểm định chéo làm giảm sự phụ thuộc vào một lần chia validation nhưng không loại bỏ mọi nguồn sai lệch. Khi có dữ liệu theo thời gian hoặc nhóm liên quan, cần cân nhắc chiến lược chia phù hợp thay vì mặc định K-Fold ngẫu nhiên.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.10. Độ đo MAE}\addcontentsline{toc}{subsection}{2.10. Độ đo MAE}
+
+MAE là trung bình trị tuyệt đối sai số, có cùng đơn vị với điểm chất
+lượng. Giá trị càng thấp càng tốt; MAE dễ giải thích như độ lệch trung
+bình theo số điểm. Công thức: MAE = (1/n) × Σ\textbar yᵢ − ŷᵢ\textbar.
+
+MAE không nhấn mạnh quá mạnh các lỗi rất lớn. Vì vậy, nó cần đi cùng
+RMSE và biểu đồ phân phối sai số để đánh giá mức độ ổn định.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Diễn giải sai số tuyệt đối}\par
+MAE đo độ lớn sai số mà không quan tâm dấu. Chẳng hạn, một dự đoán cao hơn nhãn thực tế một điểm và một dự đoán thấp hơn một điểm đều đóng góp một đơn vị sai số tuyệt đối. Ưu điểm của MAE là dễ diễn giải theo thang điểm gốc và ít bị chi phối bởi sai số cực lớn hơn so với chỉ số bình phương. Nhược điểm là MAE không thể hiện trực tiếp mức độ nghiêm trọng của một số trường hợp dự đoán rất xa giá trị thật. Do đó cần xem thêm RMSE và phân phối phần dư.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.11. Độ đo RMSE}\addcontentsline{toc}{subsection}{2.11. Độ đo RMSE}
+
+RMSE là căn bậc hai của trung bình bình phương sai số. Vì bình phương
+sai số, những dự đoán sai nhiều bị phạt mạnh hơn. RMSE lớn hơn đáng kể
+so với MAE có thể gợi ý tồn tại một số lỗi lớn. Công thức: RMSE =
+√{[}(1/n) × Σ(yᵢ − ŷᵢ)²{]}.
+
+Không thể kết luận RMSE cao chỉ do ngoại lệ mà chưa xem các mẫu dự đoán
+sai cụ thể. Phân tích cần đối chiếu histogram sai số và bảng top mẫu sai
+lệch lớn nhất.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Ý nghĩa của việc bình phương sai số}\par
+RMSE tính căn bậc hai của trung bình bình phương sai số nên có cùng đơn vị với nhãn. Do bình phương trước khi lấy trung bình, những sai lệch lớn có tác động mạnh hơn lên chỉ số. Khi RMSE cao hơn MAE nhiều, cần kiểm tra xem có một nhóm nhỏ mẫu gây sai số lớn hay không. Tuy nhiên, sự khác biệt giữa hai chỉ số còn phụ thuộc vào toàn bộ phân phối sai số, không thể tự động quy cho một nguyên nhân. Nên trình bày RMSE bên cạnh bảng lỗi và biểu đồ phân phối phần dư.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.12. Độ đo hệ số xác định R bình phương}\addcontentsline{toc}{subsection}{2.12. Độ đo hệ số xác định R bình phương}
+
+\(\text{R}^{\text{2}}\) so sánh sai số bình phương của mô hình với
+phương án dự đoán trung bình trên tập đánh giá. Giá trị 1 thể hiện khớp
+hoàn hảo, 0 tương đương mốc dự đoán trung bình theo định nghĩa, và có
+thể âm nếu mô hình kém mốc. Công thức: R² = 1 − {[}Σ(yᵢ − ŷᵢ)² / Σ(yᵢ −
+ȳ)²{]}.
+
+Không được nhầm \(\text{R}^{\text{2}}\) với tỷ lệ phần trăm mẫu dự đoán
+chính xác. Đối với bài toán điểm chất lượng, chỉ số này bổ sung góc nhìn
+về mức độ giải thích biến thiên, nhưng không thay thế MAE và RMSE.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Cách hiểu hệ số xác định}\par
+Hệ số xác định so sánh tổng sai số bình phương của mô hình với tổng độ lệch bình phương quanh trung bình nhãn trên tập đánh giá. Giá trị gần một biểu thị mô hình giải thích được phần lớn biến thiên theo định nghĩa của chỉ số; giá trị âm cho thấy mô hình kém hơn mốc dự đoán hằng theo trung bình nhãn tập đánh giá. R bình phương không phải xác suất dự đoán đúng và cũng không phải tỷ lệ phần trăm mẫu chính xác. Khi nhãn có phân phối hẹp hoặc khác biệt giữa các tập, cần kết hợp chỉ số này với MAE và RMSE.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\subsection*{2.13. Ma trận thiết kế thí nghiệm}\addcontentsline{toc}{subsection}{2.13. Ma trận thiết kế thí nghiệm}
+
+Thiết kế gồm bốn tổ hợp chính: KNN--A, KNN--B, Tree--A và Tree--B. Mỗi
+tổ hợp có một lưới siêu tham số, được chọn trên tập train bằng cùng số
+fold và cùng tiêu chí CV MAE.
+
+Cần lưu cả CV MAE và test MAE để phân tích chênh lệch giữa chọn tham số
+và đánh giá ngoài mẫu. Các kết quả test không được dùng để điều chỉnh
+lưới tham số sau khi xem.
+
+Pipeline học máy đề xuất cho Đề tài 15
+
+Ma trận thí nghiệm dự kiến
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1778}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2082}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2672}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3468}}@{}}
+\caption[Ma trận thí nghiệm dự kiến]{Ma trận thí nghiệm dự
+kiến}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mã
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Tiền xử lý
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Mô hình
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Siêu tham số chính
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mã
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Tiền xử lý
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Mô hình
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Siêu tham số chính
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+KNN--A & A & K-NN & k, weights \\
+KNN--B & B & K-NN & k, weights \\
+Tree--A & A & Decision Tree & depth, leaf \\
+Tree--B & B & Decision Tree & depth, leaf \\
+\end{longtable}
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Nguyên tắc so sánh công bằng}\par
+Các cấu hình cần sử dụng cùng dữ liệu đầu vào, cùng phép chia train/test, cùng số fold và cùng tiêu chí chọn siêu tham số. Nếu một mô hình được tối ưu nhiều hơn mô hình khác, phép so sánh có thể bị thiên lệch do ngân sách tìm kiếm. Cần lưu cấu hình tốt nhất, độ đo trung bình trên các fold và kết quả kiểm thử cuối cùng. Khi có điều kiện, có thể ghi thêm thời gian huấn luyện, chi phí dự đoán và độ ổn định giữa các lần chạy để đánh giá tính khả thi khi triển khai.\par
+
+Để kiểm chứng ảnh hưởng của lựa chọn thiết kế, cần giữ cố định dữ liệu và tiêu chí đánh giá, chỉ thay đổi yếu tố đang khảo sát. Nên lưu lại cấu hình tham số và kết quả từng fold, thay vì chỉ lưu một con số trung bình. Cách làm này giúp phân biệt cải thiện thật sự với biến động ngẫu nhiên và giúp người đọc tái lập phép thử.\par
+
+\clearpage
+\section*{CHƯƠNG 3. PHÂN TÍCH MÃ NGUỒN VÀ CHỨC NĂNG}\addcontentsline{toc}{section}{CHƯƠNG 3. PHÂN TÍCH MÃ NGUỒN VÀ CHỨC NĂNG}
+
+\subsection*{3.1. Cấu trúc thư mục dự án}\addcontentsline{toc}{subsection}{3.1. Cấu trúc thư mục dự án}
+
+Thư mục gốc gồm README.md, requirements.txt, AI\_USAGE.md, src/train.py,
+data/, results/ và report/main.tex. Mã nguồn và báo cáo tách biệt để dễ
+bảo trì và đánh giá.
+
+Thư mục data/ chứa tệp CSV nguồn; results/ chứa số liệu và biểu đồ được
+tạo tự động. README hướng dẫn cài đặt, chạy và biên dịch. Tệp AI\_USAGE
+mô tả phạm vi hỗ trợ của công cụ AI.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Tổ chức dự án có thể tái lập}\par
+Việc tách dữ liệu nguồn, mã nguồn, kết quả và tài liệu giúp hạn chế nhầm lẫn giữa đầu vào và đầu ra. Dữ liệu gốc nên được lưu riêng, không ghi đè trong quá trình tiền xử lý; kết quả thực nghiệm nên nằm trong thư mục có thể tạo lại bằng lệnh chạy. README cần mô tả yêu cầu môi trường, cách cài đặt, nguồn dữ liệu và vị trí các tệp đầu ra. Với bài tập nhóm, quy ước tên tệp và lịch sử phiên bản còn giúp xác định phần việc của từng thành viên.\par
+
+Về triển khai phần mềm, nên bổ sung kiểm tra đầu vào, thông báo lỗi rõ ràng và ghi log các bước chính. Các tệp kết quả cần có tên và cấu trúc thống nhất để tránh nhầm lẫn giữa các lần chạy. Đặc biệt, dữ liệu dùng để tính chỉ số và tạo biểu đồ phải đến từ cùng một mô hình đã được chọn theo quy trình đánh giá.\par
+
+\subsection*{3.2. Hàm nạp dữ liệu}\addcontentsline{toc}{subsection}{3.2. Hàm nạp dữ liệu}
+
+Hàm load\_data tự tải hai tệp CSV của UCI nếu chưa tồn tại trong data/.
+Mỗi tệp được đọc bằng pandas với dấu phân cách chấm phẩy. Chương trình
+thêm wine\_type rồi ghép hai bảng theo hàng.
+
+Việc giữ nguyên cột gốc và ghi rõ nguồn cho phép truy xuất nguồn gốc dữ
+liệu. Nếu máy không có Internet, người chạy có thể tải CSV thủ công từ
+UCI và đặt đúng tên trong data/.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Kiểm tra dữ liệu sau khi nạp}\par
+Sau khi đọc CSV, chương trình nên xác nhận số cột, tên cột, kiểu dữ liệu và phạm vi giá trị trước khi đưa vào mô hình. Việc ghép hai tập dữ liệu cần giữ đúng thứ tự các đặc trưng và thêm biến nhận biết loại rượu nhất quán. Nếu nguồn dữ liệu thay đổi cấu trúc hoặc dấu phân cách, chương trình nên báo lỗi rõ ràng thay vì âm thầm tạo bảng sai. Các bước kiểm tra này không trực tiếp tăng độ chính xác nhưng giúp bảo đảm độ tin cậy của toàn bộ thí nghiệm.\par
+
+Về triển khai phần mềm, nên bổ sung kiểm tra đầu vào, thông báo lỗi rõ ràng và ghi log các bước chính. Các tệp kết quả cần có tên và cấu trúc thống nhất để tránh nhầm lẫn giữa các lần chạy. Đặc biệt, dữ liệu dùng để tính chỉ số và tạo biểu đồ phải đến từ cùng một mô hình đã được chọn theo quy trình đánh giá.\par
+
+\subsection*{3.3. Hàm tạo pipeline}\addcontentsline{toc}{subsection}{3.3. Hàm tạo pipeline}
+
+Hàm make\_pipeline nhận mô hình và nhãn luồng A/B, trả về một Pipeline
+của scikit-learn. Mỗi cấu hình có imputer và scaler; luồng B thêm bước
+chọn tám đặc trưng bằng SelectKBest.
+
+Đặt các phép biến đổi trong pipeline là biện pháp cốt lõi để tránh data
+leakage trong cross-validation. Nếu sau này thêm đặc trưng, cần bảo đảm
+phép biến đổi cũng được fit trong fold tương ứng.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Ưu điểm của mô-đun hóa pipeline}\par
+Một hàm tạo pipeline cho phép tái sử dụng cùng cấu trúc xử lý với các mô hình khác nhau và giảm nguy cơ quên bước biến đổi. Tham số của từng bước có thể được khai báo theo tên để GridSearchCV thay đổi có hệ thống. Khi dự đoán dữ liệu mới, pipeline tự thực hiện đúng chuỗi biến đổi đã học trong huấn luyện. Nếu lưu riêng mô hình mà bỏ quên bộ chuẩn hóa hoặc bộ chọn đặc trưng, kết quả dự đoán có thể không còn tương thích với lúc đánh giá.\par
+
+Về triển khai phần mềm, nên bổ sung kiểm tra đầu vào, thông báo lỗi rõ ràng và ghi log các bước chính. Các tệp kết quả cần có tên và cấu trúc thống nhất để tránh nhầm lẫn giữa các lần chạy. Đặc biệt, dữ liệu dùng để tính chỉ số và tạo biểu đồ phải đến từ cùng một mô hình đã được chọn theo quy trình đánh giá.\par
+
+\subsection*{3.4. Tổ chức tìm kiếm siêu tham số}\addcontentsline{toc}{subsection}{3.4. Tổ chức tìm kiếm siêu tham số}
+
+Bốn cấu hình được đưa vào GridSearchCV. Từng lưới tham số được xác định
+rõ trong mã nguồn; cùng một KFold năm lần chia được dùng để so sánh nhất
+quán.
+
+GridSearchCV sử dụng neg\_mean\_absolute\_error làm tiêu chí lựa chọn,
+sau đó refit mô hình tốt nhất trên train. Đây là kết quả tối ưu trong
+phạm vi lưới thử, không khẳng định tối ưu toàn cục.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Tìm kiếm siêu tham số có kiểm soát}\par
+GridSearchCV đánh giá lần lượt các tổ hợp trong lưới tham số bằng cùng chiến lược kiểm định chéo. Cách tìm kiếm này minh bạch và dễ tái lập nhưng chi phí tính toán tăng theo số tổ hợp và số fold. Một lưới quá hẹp có thể bỏ qua cấu hình phù hợp, còn một lưới quá lớn có thể tốn thời gian không cần thiết. Quan trọng hơn, việc thay đổi lưới dựa vào kết quả test sẽ làm suy yếu vai trò đánh giá độc lập của tập kiểm thử.\par
+
+Về triển khai phần mềm, nên bổ sung kiểm tra đầu vào, thông báo lỗi rõ ràng và ghi log các bước chính. Các tệp kết quả cần có tên và cấu trúc thống nhất để tránh nhầm lẫn giữa các lần chạy. Đặc biệt, dữ liệu dùng để tính chỉ số và tạo biểu đồ phải đến từ cùng một mô hình đã được chọn theo quy trình đánh giá.\par
+
+\subsection*{3.5. Đánh giá tập kiểm thử}\addcontentsline{toc}{subsection}{3.5. Đánh giá tập kiểm thử}
+
+Sau khi fit xong, chương trình dự đoán trên X\_test và tính MAE, RMSE,
+R². Kết quả được lưu thành bảng metrics.csv để chèn vào báo
+cáo.\(\text{R}^{\text{2}}\)
+
+Mọi giá trị trong bảng kết quả phải được lấy từ tệp do chương trình tạo,
+không tự điền số. Nên ghi phiên bản thư viện và môi trường chạy để tái
+lập chính xác hơn.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Kiểm tra tính hợp lệ của kết quả}\par
+Sau khi dự đoán, cần xác nhận số dự đoán bằng số nhãn kiểm thử, các giá trị hữu hạn và thứ tự mẫu được giữ đúng. Bảng metric nên ghi rõ tên mô hình, luồng tiền xử lý, siêu tham số, độ đo kiểm định chéo và độ đo kiểm thử. Nếu lưu kết quả thành CSV, việc đọc lại bằng một công cụ khác giúp phát hiện lỗi dấu thập phân hoặc sai tên cột. Các phép kiểm tra này làm tăng khả năng kiểm chứng độc lập của báo cáo.\par
+
+Về triển khai phần mềm, nên bổ sung kiểm tra đầu vào, thông báo lỗi rõ ràng và ghi log các bước chính. Các tệp kết quả cần có tên và cấu trúc thống nhất để tránh nhầm lẫn giữa các lần chạy. Đặc biệt, dữ liệu dùng để tính chỉ số và tạo biểu đồ phải đến từ cùng một mô hình đã được chọn theo quy trình đánh giá.\par
+
+\subsection*{3.6. Sinh biểu đồ và bảng lỗi}\addcontentsline{toc}{subsection}{3.6. Sinh biểu đồ và bảng lỗi}
+
+Chương trình tạo biểu đồ phân phối quality, biểu đồ so sánh MAE,
+histogram sai số và đồ thị thực tế so với dự đoán. Đồng thời xuất
+prediction\_errors.csv sắp xếp theo sai số tuyệt đối giảm dần.
+
+Đồ thị thực tế/dự đoán giúp nhận biết hiện tượng dự đoán co về trung
+bình; histogram sai số cho thấy lệch hệ thống hoặc đuôi dài. Bảng lỗi
+cho phép phân tích các mẫu cụ thể thay vì chỉ nhận xét bằng metric.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Vai trò của trực quan hóa lỗi}\par
+Một bảng điểm tổng hợp có thể che khuất sự khác biệt giữa các nhóm mẫu. Histogram phần dư cho biết sai số tập trung gần không hay có đuôi dài; đồ thị giá trị thật so với dự đoán cho thấy mức độ bám đường chéo lý tưởng; biểu đồ MAE giữa các cấu hình giúp nhận diện thứ tự hiệu năng. Bảng các mẫu sai số lớn nhất hỗ trợ kiểm tra trường hợp cụ thể. Các biểu đồ phải được sinh từ đúng dữ liệu và mô hình được báo cáo, không sử dụng hình minh họa thay cho bằng chứng chạy thực tế.\par
+
+Về triển khai phần mềm, nên bổ sung kiểm tra đầu vào, thông báo lỗi rõ ràng và ghi log các bước chính. Các tệp kết quả cần có tên và cấu trúc thống nhất để tránh nhầm lẫn giữa các lần chạy. Đặc biệt, dữ liệu dùng để tính chỉ số và tạo biểu đồ phải đến từ cùng một mô hình đã được chọn theo quy trình đánh giá.\par
+
+\subsection*{3.7. Khả năng tái lập và kiểm soát phiên bản}\addcontentsline{toc}{subsection}{3.7. Khả năng tái lập và kiểm soát phiên bản}
+
+Mã nguồn đặt random\_state=42 cho phép chia dữ liệu, KFold và Decision
+Tree. Các thư viện được khai báo trong requirements.txt; README ghi lệnh
+chạy.
+
+Để đạt chất lượng repo cao hơn, nhóm nên pin phiên bản chính xác, lưu
+commit hash, bổ sung tệp môi trường và commit kết quả sau mỗi lần thử
+nghiệm. Những bằng chứng này không thể thay bằng mô tả trong báo cáo.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Ghi nhận môi trường và hạt giống}\par
+Hạt giống ngẫu nhiên hỗ trợ tái lập việc chia tập và những thao tác có yếu tố ngẫu nhiên, nhưng kết quả vẫn có thể khác giữa phiên bản thư viện hoặc môi trường tính toán. Vì vậy, nên lưu phiên bản Python, numpy, pandas, scikit-learn và thông tin lệnh chạy. Mỗi lần cập nhật mã nguồn có thể làm thay đổi kết quả; lưu commit hoặc thẻ phiên bản giúp truy vết thay đổi. Việc tái lập nên được kiểm tra bằng cách chạy lại từ thư mục kết quả rỗng.\par
+
+Về triển khai phần mềm, nên bổ sung kiểm tra đầu vào, thông báo lỗi rõ ràng và ghi log các bước chính. Các tệp kết quả cần có tên và cấu trúc thống nhất để tránh nhầm lẫn giữa các lần chạy. Đặc biệt, dữ liệu dùng để tính chỉ số và tạo biểu đồ phải đến từ cùng một mô hình đã được chọn theo quy trình đánh giá.\par
+
+\subsection*{3.8. Kiểm thử chức năng chương trình}\addcontentsline{toc}{subsection}{3.8. Kiểm thử chức năng chương trình}
+
+Cần kiểm tra chương trình có tải được hai tệp CSV, tạo đủ các đầu ra và
+xử lý lỗi mạng/tệp không tồn tại. Kiểm tra dữ liệu sau khi ghép có đúng
+cột và không chứa nhãn trong X.
+
+Kiểm thử logic bao gồm xác nhận train/test không trùng chỉ số, pipeline
+fit thành công, metric có giá trị hữu hạn và các biểu đồ được tạo. Kết
+quả kiểm thử phải dựa trên lần chạy thực tế.
+
+\begin{verbatim}
+cv = KFold(n_splits=5, shuffle=True, random_state=42)
+grid = GridSearchCV(
+    make_pipeline(model, variant), params,
+    cv=cv, scoring='neg_mean_absolute_error',
+    n_jobs=-1, refit=True)
+grid.fit(X_train, y_train)
+pred = grid.predict(X_test)
+\end{verbatim}
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Phân loại kiểm thử chương trình}\par
+Có thể chia kiểm thử thành ba nhóm: kiểm thử dữ liệu đầu vào, kiểm thử luồng xử lý và kiểm thử kết quả. Kiểm thử đầu vào xác nhận CSV đọc đúng và đủ cột; kiểm thử luồng xác nhận mỗi pipeline fit và predict thành công; kiểm thử kết quả xác nhận số dòng, metric và biểu đồ được xuất như mong đợi. Khi có thể, nên bổ sung các tình huống lỗi như thiếu tệp hoặc dữ liệu có giá trị không hợp lệ. Các mô tả này là tiêu chí đề xuất, không phải khẳng định đã chạy đầy đủ kiểm thử.\par
+
+Về triển khai phần mềm, nên bổ sung kiểm tra đầu vào, thông báo lỗi rõ ràng và ghi log các bước chính. Các tệp kết quả cần có tên và cấu trúc thống nhất để tránh nhầm lẫn giữa các lần chạy. Đặc biệt, dữ liệu dùng để tính chỉ số và tạo biểu đồ phải đến từ cùng một mô hình đã được chọn theo quy trình đánh giá.\par
+
+\clearpage
+\section*{CHƯƠNG 4. THỬ NGHIỆM VÀ KẾT QUẢ}\addcontentsline{toc}{section}{CHƯƠNG 4. THỬ NGHIỆM VÀ KẾT QUẢ}
+
+\subsection*{4.1. Nguồn minh chứng và thiết lập thực nghiệm}\addcontentsline{toc}{subsection}{4.1. Nguồn minh chứng và thiết lập thực nghiệm}
+
+Bảng kết quả trong chương được kế thừa từ bản báo cáo do nhóm cung cấp,
+được ghi là xuất từ metrics.csv, run\_metadata.json và
+prediction\_errors.csv. Cần chạy lại mã nguồn trên dữ liệu UCI và đối
+chiếu các tệp này để xác nhận tính tái lập; việc chỉnh sửa tài liệu
+không phải là một lần chạy thực nghiệm mới.
+
+Theo metadata, bộ dữ liệu có \textbf{6.497 mẫu}, \textbf{12 đặc trưng
+đầu vào}, trong đó 11 chỉ số hóa lý và một cột \texttt{wine\_type}; biến
+đích là \texttt{quality}. Tập huấn luyện có \textbf{5.197 mẫu}, tập kiểm
+thử có \textbf{1.300 mẫu}, \texttt{random\_state=42}. Tham số được tìm
+trên tập huấn luyện; chỉ số kiểm thử được báo cáo riêng.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Phân biệt minh chứng và diễn giải}\par
+Số liệu trong bảng kết quả là quan sát được báo cáo từ một lần chạy, còn lời giải thích vì sao mô hình tốt hơn là diễn giải cần kiểm chứng thêm. Khi một cấu hình có MAE thấp hơn, có thể kết luận cấu hình đó tốt hơn theo MAE trên tập kiểm thử đã xét, nhưng không thể suy ra nó luôn tốt hơn trên mọi dữ liệu mới. Việc ghi rõ nguồn bảng, hạt giống, tập dữ liệu và lệnh chạy là cần thiết để người đọc phân biệt kết quả đo với giả thuyết.\par
+
+Khi diễn giải kết quả, cần trình bày đồng thời số liệu quan sát, phạm vi phép thử và những giới hạn chưa được kiểm chứng. Một khác biệt nhỏ giữa hai chỉ số không tự động chứng minh sự vượt trội ổn định. Có thể dùng phân tích theo nhóm hoặc lặp lại nhiều phép chia như bước kiểm tra tiếp theo, nhưng không được tự tạo số liệu cho những thí nghiệm chưa chạy.\par
+
+\subsection*{4.2. Khám phá dữ liệu và phân phối điểm chất lượng}\addcontentsline{toc}{subsection}{4.2. Khám phá dữ liệu và phân phối điểm chất lượng}
+
+Báo cáo \texttt{data\_info.txt} cho thấy 6.497 dòng, 13 cột bao gồm cả
+biến mục tiêu. Tất cả 13 cột đều có 6.497 giá trị không rỗng, vì vậy dữ
+liệu nạp vào không có giá trị thiếu theo thống kê đã xuất. Phân phối
+điểm không cân bằng: điểm 5 và 6 chiếm phần lớn mẫu, trong khi điểm 3 và
+9 rất hiếm.
+
+Phân phối điểm chất lượng từ dữ liệu thực nghiệm
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4859}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2554}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2588}}@{}}
+\caption[Phân phối điểm chất lượng từ dữ liệu thực nghiệm]{Phân phối
+điểm chất lượng từ dữ liệu thực nghiệm}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Điểm chất lượng
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Số mẫu
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Tỷ lệ
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Điểm chất lượng
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Số mẫu
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Tỷ lệ
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+3 & 30 & 0.46\% \\
+4 & 216 & 3.32\% \\
+5 & 2138 & 32.91\% \\
+6 & 2836 & 43.65\% \\
+7 & 1079 & 16.61\% \\
+8 & 193 & 2.97\% \\
+9 & 5 & 0.08\% \\
+\end{longtable}
+
+\includegraphics[width=.88\linewidth,height=.42\textheight,keepaspectratio]{media/image2.png}
+
+Phân phối điểm chất lượng trên bộ dữ liệu UCI đã nạp
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Phân phối nhãn và đánh giá theo nhóm}\par
+Tập trung nhiều mẫu ở mức 5 và 6 tạo thuận lợi cho mô hình học quy luật của vùng phổ biến, nhưng khiến việc đánh giá vùng điểm thấp hoặc cao khó hơn. Một phép phân tích bổ sung có thể lập bảng MAE theo từng nhãn thật và so sánh số mẫu của mỗi nhóm. Đối với nhóm chỉ có vài mẫu, cần tránh diễn giải quá mạnh vì một dự đoán sai có thể làm chỉ số thay đổi đáng kể. Phân tích theo nhóm không thay thế chỉ số tổng thể mà giúp bổ sung góc nhìn công bằng hơn.\par
+
+Khi diễn giải kết quả, cần trình bày đồng thời số liệu quan sát, phạm vi phép thử và những giới hạn chưa được kiểm chứng. Một khác biệt nhỏ giữa hai chỉ số không tự động chứng minh sự vượt trội ổn định. Có thể dùng phân tích theo nhóm hoặc lặp lại nhiều phép chia như bước kiểm tra tiếp theo, nhưng không được tự tạo số liệu cho những thí nghiệm chưa chạy.\par
+
+\subsection*{4.3. Bảng kết quả baseline và bốn cấu hình}\addcontentsline{toc}{subsection}{4.3. Bảng kết quả baseline và bốn cấu hình}
+
+Baseline cung cấp mốc so sánh; hai mô hình học máy được chạy với hai
+luồng tiền xử lý A và B. Cột CV MAE phản ánh đánh giá trong quá trình
+lựa chọn tham số, còn các cột test chỉ tính trên tập kiểm thử.
+
+Kết quả thực nghiệm trích nguyên giá trị từ metrics.csv
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1592}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1300}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1740}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1856}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2032}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1481}}@{}}
+\caption[Kết quả thực nghiệm trích nguyên giá trị từ metrics.csv]{Kết
+quả thực nghiệm trích nguyên giá trị từ metrics.csv}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mô hình
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Luồng
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+CV MAE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Test MAE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Test RMSE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Test \(\text{R}^{\text{2}}\)
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mô hình
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Luồng
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+CV MAE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Test MAE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Test RMSE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Test \(\text{R}^{\text{2}}\)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+KNN & A & 0.4256 & 0.4019 & 0.6112 & 0.4942 \\
+KNN & B & 0.4352 & 0.4137 & 0.6249 & 0.4713 \\
+Tree & A & 0.5047 & 0.5015 & 0.8440 & 0.0355 \\
+Tree & B & 0.5386 & 0.5385 & 0.8927 & -0.0790 \\
+Baseline & A & 0.6911 & 0.6691 & 0.8596 & -0.0005 \\
+\end{longtable}
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Cách đọc bảng so sánh mô hình}\par
+Cột CV MAE phản ánh kết quả trung bình trong quá trình lựa chọn cấu hình trên tập huấn luyện, còn test MAE phản ánh hiệu năng ngoài mẫu của mô hình đã được chọn. Hai cột có thể khác nhau do phép chia dữ liệu và biến động thống kê. Không nên chọn lại cấu hình chỉ vì test MAE đẹp hơn sau khi xem bảng, bởi điều đó khiến tập test tham gia gián tiếp vào lựa chọn mô hình. Bảng kết quả nên được đọc cùng siêu tham số tốt nhất và các biểu đồ phân tích lỗi.\par
+
+Khi diễn giải kết quả, cần trình bày đồng thời số liệu quan sát, phạm vi phép thử và những giới hạn chưa được kiểm chứng. Một khác biệt nhỏ giữa hai chỉ số không tự động chứng minh sự vượt trội ổn định. Có thể dùng phân tích theo nhóm hoặc lặp lại nhiều phép chia như bước kiểm tra tiếp theo, nhưng không được tự tạo số liệu cho những thí nghiệm chưa chạy.\par
+
+\subsection*{4.4. Kết quả K-NN với luồng A và B}\addcontentsline{toc}{subsection}{4.4. Kết quả K-NN với luồng A và B}
+
+K-NN luồng A có CV MAE = 0,4256; MAE kiểm thử = 0,4019; RMSE = 0,6112 và
+R² = 0,4942. K-NN luồng B có CV MAE = 0,4352; MAE kiểm thử = 0,4137;
+RMSE = 0,6249 và R² = 0,4713. Cả hai cấu hình đều chọn n\_neighbors=15
+và weights=distance. Luồng A có lợi thế nhỏ trên cả kiểm định chéo và
+kiểm thử; không nên quy nguyên nhân cho một bước tiền xử lý đơn lẻ vì
+luồng B đồng thời thay đổi chuẩn hóa và chọn đặc
+trưng.\(\text{R}^{\text{2}}\text{=}\text{0}\text{,}\text{4942}\text{R}^{\text{2}}\text{=}\text{0}\text{,}\text{4713}\)
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Diễn giải kết quả K-NN}\par
+Hai cấu hình K-NN sử dụng các cách tiền xử lý khác nhau, do đó sự khác biệt MAE phản ánh toàn bộ tổ hợp biến đổi và mô hình. Khi cả hai lựa chọn cùng số láng giềng và cách gán trọng số, có thể nhận xét rằng trong phạm vi lưới đã thử, cách xử lý dữ liệu là một yếu tố phân biệt hai cấu hình. Tuy nhiên, để khẳng định vai trò riêng của RobustScaler hay SelectKBest, cần thực hiện thí nghiệm ablation chỉ thay đổi một thành phần mỗi lần.\par
+
+Khi diễn giải kết quả, cần trình bày đồng thời số liệu quan sát, phạm vi phép thử và những giới hạn chưa được kiểm chứng. Một khác biệt nhỏ giữa hai chỉ số không tự động chứng minh sự vượt trội ổn định. Có thể dùng phân tích theo nhóm hoặc lặp lại nhiều phép chia như bước kiểm tra tiếp theo, nhưng không được tự tạo số liệu cho những thí nghiệm chưa chạy.\par
+
+\subsection*{4.5. Kết quả Cây quyết định với luồng A và B}\addcontentsline{toc}{subsection}{4.5. Kết quả Cây quyết định với luồng A và B}
+
+Decision Tree luồng A có MAE = 0,5015, RMSE = 0,8440, R² = 0,0355; luồng
+B có MAE = 0,5385, RMSE = 0,8927, R² = -0,0790. Cả hai chọn
+max\_depth=None và min\_samples\_leaf=1 trong lưới đã xét. Kết quả này
+kém K-NN rõ rệt trên tập kiểm thử. Giá trị âm của Tree B nghĩa là kết
+quả kiểm thử kém hơn cách dự đoán hằng bằng trung bình nhãn của tập kiểm
+thử theo định nghĩa R²; không tự động chứng minh quá khớp nếu thiếu số
+liệu
+train.\(\text{R}^{\text{2}}\text{=}\text{0}\text{,}\text{0355}\text{R}^{\text{2}}\text{=−}\text{0}\text{,}\text{0790}\text{R}^{\text{2}}\text{R}^{\text{2}}\)
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Diễn giải kết quả cây quyết định}\par
+Một cây không giới hạn độ sâu và có lá tối thiểu một mẫu có khả năng tạo ra nhiều vùng dự đoán nhỏ. Điều này có thể khiến mô hình nhạy với nhiễu trong dữ liệu huấn luyện. Tuy vậy, chỉ dựa vào MAE và R bình phương trên test chưa đủ để khẳng định cây bị quá khớp; cần so sánh độ đo train với validation và xem cấu trúc cây. Việc thử giới hạn độ sâu hoặc tăng kích thước lá là một hướng kiểm chứng hợp lý cho nghiên cứu tiếp theo.\par
+
+Khi diễn giải kết quả, cần trình bày đồng thời số liệu quan sát, phạm vi phép thử và những giới hạn chưa được kiểm chứng. Một khác biệt nhỏ giữa hai chỉ số không tự động chứng minh sự vượt trội ổn định. Có thể dùng phân tích theo nhóm hoặc lặp lại nhiều phép chia như bước kiểm tra tiếp theo, nhưng không được tự tạo số liệu cho những thí nghiệm chưa chạy.\par
+
+\subsection*{4.6. So sánh với baseline}\addcontentsline{toc}{subsection}{4.6. So sánh với baseline}
+
+Baseline có MAE = 0,6691; RMSE = 0,8596; R² = -0,0005. So với baseline,
+K-NN A giảm MAE khoảng 39,93\% và giảm RMSE khoảng 28,90\%. Các con số
+cho thấy mô hình đã học được tín hiệu dự đoán có ích từ các đặc trưng
+đầu vào, song R² chỉ khoảng 0,49 nên còn biến thiên chưa được giải
+thích.\(\text{R}^{\text{2}}\text{=−}\text{0}\text{,}\text{0005}\text{R}^{\text{2}}\)
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Ý nghĩa của mức cải thiện so với baseline}\par
+So sánh với baseline cho biết mô hình có tận dụng được thông tin đầu vào tốt hơn dự đoán hằng hay không. Mức cải thiện tương đối có thể tính bằng chênh lệch độ đo chia cho độ đo baseline; tuy nhiên nên trình bày cả giá trị tuyệt đối để tránh hiểu nhầm khi baseline nhỏ. Ngoài ra, cải thiện trên một phép chia chưa đủ phản ánh độ ổn định qua các phép chia khác. Một báo cáo mở rộng có thể bổ sung khoảng biến động qua nhiều hạt giống ngẫu nhiên.\par
+
+Khi diễn giải kết quả, cần trình bày đồng thời số liệu quan sát, phạm vi phép thử và những giới hạn chưa được kiểm chứng. Một khác biệt nhỏ giữa hai chỉ số không tự động chứng minh sự vượt trội ổn định. Có thể dùng phân tích theo nhóm hoặc lặp lại nhiều phép chia như bước kiểm tra tiếp theo, nhưng không được tự tạo số liệu cho những thí nghiệm chưa chạy.\par
+
+\subsection*{4.7. Biểu đồ so sánh MAE}\addcontentsline{toc}{subsection}{4.7. Biểu đồ so sánh MAE}
+
+\includegraphics[width=.88\linewidth,height=.42\textheight,keepaspectratio]{media/image3.png}
+
+So sánh MAE kiểm thử giữa baseline và bốn cấu hình
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Nguyên tắc trình bày biểu đồ}\par
+Biểu đồ cột so sánh MAE cần có nhãn trục, đơn vị đo và tên rõ ràng cho từng cấu hình. Trục giá trị nên được chọn để tránh phóng đại khác biệt nhỏ giữa các mô hình. Chú thích cần nói rõ đây là MAE trên tập kiểm thử, không phải MAE trong kiểm định chéo. Hình nên đi kèm bảng số liệu để người đọc có thể đối chiếu giá trị chính xác và đánh giá mức độ chênh lệch.\par
+
+Khi diễn giải kết quả, cần trình bày đồng thời số liệu quan sát, phạm vi phép thử và những giới hạn chưa được kiểm chứng. Một khác biệt nhỏ giữa hai chỉ số không tự động chứng minh sự vượt trội ổn định. Có thể dùng phân tích theo nhóm hoặc lặp lại nhiều phép chia như bước kiểm tra tiếp theo, nhưng không được tự tạo số liệu cho những thí nghiệm chưa chạy.\par
+
+\subsection*{4.8. Phân phối sai số dự đoán}\addcontentsline{toc}{subsection}{4.8. Phân phối sai số dự đoán}
+
+\includegraphics[width=.88\linewidth,height=.42\textheight,keepaspectratio]{media/image4.png}
+
+Phân phối sai số của mô hình được chọn trong chương trình
+
+Histogram cho phép kiểm tra sự tập trung của sai số và các giá trị xa 0.
+Cần lưu ý: sai số lớn trên một số mẫu không đủ để khẳng định nguyên nhân
+do nhiễu nhãn, ngoại lệ hóa lý hoặc thiếu đặc trưng; những giải thích đó
+cần kiểm tra bổ sung.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Đọc histogram phần dư}\par
+Phần dư có thể được định nghĩa là nhãn thực tế trừ dự đoán. Nếu histogram tập trung quanh không, nhiều dự đoán có sai số nhỏ; nếu phân phối lệch về một phía, có thể có xu hướng dự đoán cao hoặc thấp hơn thực tế. Các đuôi xa không cho biết nguyên nhân sai số nếu chưa xem đặc trưng và nhãn từng mẫu. Nên ghi rõ quy ước dấu của phần dư để tránh nhầm lẫn khi diễn giải biểu đồ.\par
+
+Khi diễn giải kết quả, cần trình bày đồng thời số liệu quan sát, phạm vi phép thử và những giới hạn chưa được kiểm chứng. Một khác biệt nhỏ giữa hai chỉ số không tự động chứng minh sự vượt trội ổn định. Có thể dùng phân tích theo nhóm hoặc lặp lại nhiều phép chia như bước kiểm tra tiếp theo, nhưng không được tự tạo số liệu cho những thí nghiệm chưa chạy.\par
+
+\subsection*{4.9. Đối chiếu điểm thực tế và dự đoán}\addcontentsline{toc}{subsection}{4.9. Đối chiếu điểm thực tế và dự đoán}
+
+\includegraphics[width=.88\linewidth,height=.57\textheight,keepaspectratio]{media/image5.png}
+
+Giá trị chất lượng thực tế so với giá trị dự đoán
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Đồ thị thực tế và dự đoán}\par
+Trên đồ thị phân tán, đường chéo biểu diễn trường hợp dự đoán bằng đúng giá trị thật. Các điểm nằm xa đường chéo là các mẫu có sai số lớn. Nếu điểm dự đoán co về một vùng hẹp, mô hình có thể chưa biểu diễn tốt các mức chất lượng cực trị. Tuy nhiên, nhận xét này cần được đối chiếu với bảng lỗi và phân phối nhãn. Đồ thị là công cụ chẩn đoán trực quan, không thay thế việc tính toán các độ đo.\par
+
+Khi diễn giải kết quả, cần trình bày đồng thời số liệu quan sát, phạm vi phép thử và những giới hạn chưa được kiểm chứng. Một khác biệt nhỏ giữa hai chỉ số không tự động chứng minh sự vượt trội ổn định. Có thể dùng phân tích theo nhóm hoặc lặp lại nhiều phép chia như bước kiểm tra tiếp theo, nhưng không được tự tạo số liệu cho những thí nghiệm chưa chạy.\par
+
+\subsection*{4.10. Các mẫu có sai số lớn nhất}\addcontentsline{toc}{subsection}{4.10. Các mẫu có sai số lớn nhất}
+
+Theo báo cáo nguồn, tệp prediction\_errors.csv chứa 1.300 dự đoán trên
+tập kiểm thử, được sắp xếp theo sai số tuyệt đối giảm dần. Bảng dưới
+trích tám trường hợp có sai số lớn nhất; nhóm cần đối chiếu với tệp CSV
+thực tế.
+
+Tám trường hợp có sai số tuyệt đối lớn nhất
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1811}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1981}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4472}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1736}}@{}}
+\caption[Tám trường hợp có sai số tuyệt đối lớn nhất]{Tám trường hợp có
+sai số tuyệt đối lớn nhất}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Thực tế
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Dự đoán
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sai số (thực - dự đoán)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(\text{|}\)Sai số\(\text{|}\)
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Thực tế
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Dự đoán
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sai số (thực - dự đoán)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(\text{|}\)Sai số\(\text{|}\)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+3 & 6.015 & -3.015 & 3.015 \\
+3 & 5.636 & -2.636 & 2.636 \\
+3 & 5.523 & -2.523 & 2.523 \\
+3 & 5.411 & -2.411 & 2.411 \\
+4 & 6.187 & -2.187 & 2.187 \\
+4 & 6.184 & -2.184 & 2.184 \\
+3 & 5.179 & -2.179 & 2.179 \\
+4 & 6.165 & -2.165 & 2.165 \\
+\end{longtable}
+
+Các ví dụ đầu tiên có nhãn thực tế 3 nhưng dự đoán trên 5, gợi ý nguy cơ
+mô hình bị kéo về những mức điểm phổ biến. Đây là quan sát từ bảng lỗi,
+chưa đủ để kết luận toàn bộ nhóm điểm 3 đều có MAE cao; cần tính chỉ số
+theo từng nhóm điểm ở thí nghiệm tiếp theo.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Phân tích mẫu dự đoán sai}\par
+Bảng các trường hợp sai số lớn nhất nên được dùng để đặt câu hỏi kiểm chứng: mẫu thuộc nhóm điểm nào, có đặc trưng khác thường không và có gần các mẫu huấn luyện tương tự hay không. Đối với K-NN, có thể xem khoảng cách và nhãn của những láng giềng gần nhất. Với cây quyết định, có thể xem các điều kiện dẫn đến lá dự đoán. Đây là những bước phân tích đề xuất, chưa được coi là kết quả nếu chưa thực hiện trên dữ liệu thực tế.\par
+
+Khi diễn giải kết quả, cần trình bày đồng thời số liệu quan sát, phạm vi phép thử và những giới hạn chưa được kiểm chứng. Một khác biệt nhỏ giữa hai chỉ số không tự động chứng minh sự vượt trội ổn định. Có thể dùng phân tích theo nhóm hoặc lặp lại nhiều phép chia như bước kiểm tra tiếp theo, nhưng không được tự tạo số liệu cho những thí nghiệm chưa chạy.\par
+
+\subsection*{4.11. Khả năng tái lập và giới hạn của kết quả}\addcontentsline{toc}{subsection}{4.11. Khả năng tái lập và giới hạn của kết quả}
+
+Bộ kết quả lưu lại số mẫu, tỉ lệ chia, seed, siêu tham số và chỉ số đánh
+giá. Để kiểm chứng độc lập, nhóm cần chạy lại lệnh
+\texttt{python\ src/train.py\ –data-dir\ data\ –out-dir\ results} với
+phiên bản thư viện được khai báo và đối chiếu các tệp CSV. Các số liệu
+chỉ phản ánh một lần chia train/test, không phải trung bình của nhiều
+lần chạy độc lập.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Giới hạn của một lần đánh giá}\par
+Một phép chia train/test cung cấp một ước lượng hiệu năng có điều kiện theo cách chia đó. Nếu thay đổi hạt giống, thành phần mẫu trong tập kiểm thử thay đổi và độ đo có thể biến động. Vì vậy, khi muốn kết luận về tính ổn định, có thể lặp lại thí nghiệm với nhiều seed hoặc sử dụng kiểm định chéo lặp lại. Cần giữ một tập đánh giá cuối cùng độc lập để tránh tối ưu quá mức theo những lần kiểm tra trước.\par
+
+Khi diễn giải kết quả, cần trình bày đồng thời số liệu quan sát, phạm vi phép thử và những giới hạn chưa được kiểm chứng. Một khác biệt nhỏ giữa hai chỉ số không tự động chứng minh sự vượt trội ổn định. Có thể dùng phân tích theo nhóm hoặc lặp lại nhiều phép chia như bước kiểm tra tiếp theo, nhưng không được tự tạo số liệu cho những thí nghiệm chưa chạy.\par
+
+\clearpage
+\section*{CHƯƠNG 5. THẢO LUẬN VÀ SO SÁNH}\addcontentsline{toc}{section}{CHƯƠNG 5. THẢO LUẬN VÀ SO SÁNH}
+
+\subsection*{5.1. So sánh hai thuật toán}\addcontentsline{toc}{subsection}{5.1. So sánh hai thuật toán}
+
+K-NN sử dụng cấu trúc khoảng cách giữa các mẫu, trong khi Cây quyết định
+học các ngưỡng chia đặc trưng. K-NN thường phụ thuộc mạnh vào chuẩn hóa
+và mật độ dữ liệu; Cây quyết định dễ biểu diễn quy tắc phi tuyến nhưng
+có thể không ổn định với thay đổi nhỏ của dữ liệu.
+
+Kết quả kiểm định chéo và kiểm thử đều ưu tiên K-NN luồng A: CV MAE =
+0,4256 và test MAE = 0,4019. Tree A có test MAE = 0,5015, cao hơn khoảng
+0,0996 điểm. Đây là bằng chứng thực nghiệm cho cấu hình đã chạy, không
+phải khẳng định K-NN luôn vượt trội trên mọi bộ dữ liệu.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Đánh đổi giữa độ chính xác và diễn giải}\par
+K-NN dựa trên các ví dụ tương tự và dễ giải thích ở mức láng giềng, nhưng việc dự đoán có thể tốn chi phí tìm kiếm khi tập dữ liệu lớn. Cây quyết định biểu diễn thành các điều kiện ngưỡng dễ đọc, song một cây sâu có thể trở nên phức tạp và không ổn định. Việc chọn mô hình cần cân nhắc đồng thời sai số, chi phí vận hành, khả năng giải thích và tính bền vững trước dữ liệu mới. Kết quả trên tập dữ liệu hiện tại là một thành phần của quyết định, không phải tiêu chí duy nhất.\par
+
+Các hướng phân tích bổ sung nên được tổ chức thành các giả thuyết riêng biệt và đánh giá bằng cùng độ đo. Việc thay đổi nhiều yếu tố cùng lúc khiến khó xác định nguyên nhân chênh lệch. Vì vậy, nghiên cứu cần ưu tiên các thí nghiệm đối chứng, trình bày kết quả thuận lợi lẫn bất lợi và nêu rõ điều kiện áp dụng của từng kết luận.\par
+
+\subsection*{5.2. So sánh luồng A và B}\addcontentsline{toc}{subsection}{5.2. So sánh luồng A và B}
+
+Luồng A là cấu hình cơ bản, đơn giản và dễ tái lập. Luồng B xử lý ngoại
+lệ bằng RobustScaler và giảm số đặc trưng qua SelectKBest. Sự khác biệt
+trong hiệu năng phản ánh cả đặc tính dữ liệu và giả định của từng thuật
+toán.
+
+Trong kết quả thực nghiệm, luồng B kém luồng A ở cả K-NN (MAE 0,4137 so
+với 0,4019) và Tree (0,5385 so với 0,5015). Để thảo luận công bằng, cần
+tránh diễn giải một cấu hình là tốt hơn chỉ vì có nhiều bước xử lý hơn.
+Các bước bổ sung có thể gây mất thông tin hoặc làm tăng độ phức tạp mà
+không cải thiện dự đoán.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Thiết kế thí nghiệm tách thành phần}\par
+Để biết chính xác bước nào của luồng B tác động đến kết quả, có thể thử bốn cấu hình: chuẩn hóa cơ bản không chọn đặc trưng, chuẩn hóa bền vững không chọn đặc trưng, chuẩn hóa cơ bản có chọn đặc trưng và chuẩn hóa bền vững có chọn đặc trưng. Các cấu hình cần giữ cùng phép chia và cùng lưới tham số. So sánh có kiểm soát như vậy giúp phân biệt ảnh hưởng riêng của scaler, selector và tương tác giữa hai bước. Đây là kế hoạch thí nghiệm mở rộng, không phải số liệu đã có trong báo cáo.\par
+
+Các hướng phân tích bổ sung nên được tổ chức thành các giả thuyết riêng biệt và đánh giá bằng cùng độ đo. Việc thay đổi nhiều yếu tố cùng lúc khiến khó xác định nguyên nhân chênh lệch. Vì vậy, nghiên cứu cần ưu tiên các thí nghiệm đối chứng, trình bày kết quả thuận lợi lẫn bất lợi và nêu rõ điều kiện áp dụng của từng kết luận.\par
+
+\subsection*{5.3. Độ ổn định theo nhóm điểm}\addcontentsline{toc}{subsection}{5.3. Độ ổn định theo nhóm điểm}
+
+Dữ liệu có thể tập trung ở các mức điểm phổ biến; mô hình tối ưu MAE
+chung dễ ưu tiên những mức đó. Nên tính MAE theo từng mức quality thực
+tế để phát hiện vùng có sai số lớn.
+
+Nếu điểm cao và thấp hiếm, sai số ở các vùng này có thể lớn do ít mẫu.
+Đây là một hạn chế quan trọng khi ứng dụng mô hình cho mục đích sàng lọc
+rượu chất lượng đặc biệt.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Đánh giá theo mức chất lượng}\par
+MAE chung có thể che giấu chênh lệch giữa các mức điểm. Một bảng đánh giá theo nhóm nên ghi số mẫu, MAE, RMSE và sai số có dấu trung bình của từng mức quality. Nếu nhóm điểm hiếm có rất ít quan sát, cần chú thích độ không chắc chắn cao của kết quả. Phân tích này đặc biệt quan trọng khi mô hình được dùng để sàng lọc những mẫu có chất lượng bất thường, bởi lỗi ở các vùng hiếm có thể quan trọng hơn lỗi ở vùng phổ biến.\par
+
+Các hướng phân tích bổ sung nên được tổ chức thành các giả thuyết riêng biệt và đánh giá bằng cùng độ đo. Việc thay đổi nhiều yếu tố cùng lúc khiến khó xác định nguyên nhân chênh lệch. Vì vậy, nghiên cứu cần ưu tiên các thí nghiệm đối chứng, trình bày kết quả thuận lợi lẫn bất lợi và nêu rõ điều kiện áp dụng của từng kết luận.\par
+
+\subsection*{5.4. Ảnh hưởng của loại rượu}\addcontentsline{toc}{subsection}{5.4. Ảnh hưởng của loại rượu}
+
+Khi ghép rượu đỏ và trắng, wine\_type được thêm làm đặc trưng. Tuy
+nhiên, các đặc trưng hóa lý có thể phân phối khác giữa hai nhóm, nên cần
+báo cáo MAE riêng cho từng loại.
+
+Nếu kết quả chênh lệch lớn, có thể xem xét huấn luyện mô hình riêng theo
+loại rượu như thí nghiệm mở rộng, nhưng không được thay đổi bộ dữ liệu
+được chỉ định hoặc báo cáo chỉ một nhóm thuận lợi.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Khả năng khác biệt giữa rượu đỏ và trắng}\par
+Hai loại rượu có thể có phân phối đặc trưng khác nhau; việc ghép dữ liệu giúp tăng số mẫu nhưng cũng tạo ra nguy cơ mô hình học các quy luật không đồng nhất. Biến wine\_type cung cấp thông tin loại rượu để mô hình phân biệt nguồn mẫu. Có thể đánh giá riêng MAE theo loại, kiểm tra phân phối các đặc trưng và so sánh mô hình chung với hai mô hình chuyên biệt. Không nên tuyên bố một cách tiếp cận tốt hơn nếu chưa có phép thử tương ứng.\par
+
+Các hướng phân tích bổ sung nên được tổ chức thành các giả thuyết riêng biệt và đánh giá bằng cùng độ đo. Việc thay đổi nhiều yếu tố cùng lúc khiến khó xác định nguyên nhân chênh lệch. Vì vậy, nghiên cứu cần ưu tiên các thí nghiệm đối chứng, trình bày kết quả thuận lợi lẫn bất lợi và nêu rõ điều kiện áp dụng của từng kết luận.\par
+
+\subsection*{5.5. Giải thích sai số lớn}\addcontentsline{toc}{subsection}{5.5. Giải thích sai số lớn}
+
+Một mô hình có MAE trung bình tốt vẫn có thể mắc lỗi lớn trên các mẫu
+bất thường. RMSE và bảng mẫu sai lớn nhất giúp nhận diện vấn đề này.
+
+Cần xem những đặc trưng nào của mẫu sai khác phân phối chung, liệu chất
+lượng thực tế có hiếm, và liệu mô hình dự đoán gần trung bình hay không.
+Những giả thuyết phải được trình bày như giả thuyết khi chưa kiểm chứng.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Phân biệt nguyên nhân và dấu hiệu sai số}\par
+Một dự đoán sai lớn có thể đồng thời liên quan đến nhãn hiếm, vị trí mẫu trong không gian đặc trưng hoặc nhiễu đo lường. Bảng lỗi chỉ cho biết mẫu nào sai, chưa xác định được nguyên nhân. Để kiểm chứng, có thể so sánh các biến của mẫu sai với phân phối toàn bộ dữ liệu, kiểm tra láng giềng gần nhất hoặc xem đường đi trong cây. Việc phân tích cần tránh gán nguyên nhân cho một biến đơn lẻ khi chưa có thí nghiệm phù hợp.\par
+
+Các hướng phân tích bổ sung nên được tổ chức thành các giả thuyết riêng biệt và đánh giá bằng cùng độ đo. Việc thay đổi nhiều yếu tố cùng lúc khiến khó xác định nguyên nhân chênh lệch. Vì vậy, nghiên cứu cần ưu tiên các thí nghiệm đối chứng, trình bày kết quả thuận lợi lẫn bất lợi và nêu rõ điều kiện áp dụng của từng kết luận.\par
+
+\subsection*{5.6. Nguy cơ quá khớp và dưới khớp}\addcontentsline{toc}{subsection}{5.6. Nguy cơ quá khớp và dưới khớp}
+
+K-NN với k quá nhỏ và Tree quá sâu có thể ghi nhớ nhiễu. Ngược lại, k
+quá lớn hoặc Tree quá nông có thể bỏ lỡ quy luật.
+
+Chênh lệch giữa train và validation cùng đồ thị learning curve là cách
+kiểm tra bổ sung. Chỉ quan sát một test score không đủ để chẩn đoán quá
+khớp một cách đáng tin cậy.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Cân bằng độ lệch và phương sai}\par
+Mô hình quá đơn giản có thể có độ lệch cao vì không học được cấu trúc quan trọng; mô hình quá linh hoạt có thể có phương sai cao vì nhạy với biến động của dữ liệu huấn luyện. Với K-NN, k là tham số điều khiển mức làm mượt; với cây quyết định, độ sâu và kích thước lá điều khiển độ phức tạp. Đường học tập hoặc so sánh sai số train và validation có thể hỗ trợ chẩn đoán. Không nên suy ra quá khớp chỉ từ một chỉ số test riêng lẻ.\par
+
+Các hướng phân tích bổ sung nên được tổ chức thành các giả thuyết riêng biệt và đánh giá bằng cùng độ đo. Việc thay đổi nhiều yếu tố cùng lúc khiến khó xác định nguyên nhân chênh lệch. Vì vậy, nghiên cứu cần ưu tiên các thí nghiệm đối chứng, trình bày kết quả thuận lợi lẫn bất lợi và nêu rõ điều kiện áp dụng của từng kết luận.\par
+
+\subsection*{5.7. Hạn chế của dữ liệu}\addcontentsline{toc}{subsection}{5.7. Hạn chế của dữ liệu}
+
+Bộ dữ liệu Wine Quality là dữ liệu quan sát có bối cảnh thu thập cụ thể,
+không phản ánh toàn bộ sản phẩm rượu vang trên thị trường. Nhãn cảm quan
+có thể chứa sai khác giữa người đánh giá.
+
+Các biến không được đo, ví dụ điều kiện bảo quản hoặc yếu tố cảm quan
+phức tạp, có thể khiến mô hình không thể dự đoán hoàn hảo. Điều này đặt
+giới hạn tự nhiên cho độ chính xác.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Giới hạn do nhãn cảm quan}\par
+Nhãn chất lượng được hình thành từ đánh giá cảm quan, vì vậy có thể chịu ảnh hưởng của người đánh giá và điều kiện thực hiện. Nếu hai mẫu có phép đo hóa lý gần nhau nhưng điểm cảm quan khác biệt, mô hình chỉ dựa trên hóa lý có thể khó phân biệt. Đây là giới hạn thông tin đầu vào, không nhất thiết là lỗi lập trình. Một hướng phát triển là bổ sung các yếu tố về quy trình sản xuất hoặc điều kiện bảo quản nếu được thu thập hợp pháp và nhất quán.\par
+
+Các hướng phân tích bổ sung nên được tổ chức thành các giả thuyết riêng biệt và đánh giá bằng cùng độ đo. Việc thay đổi nhiều yếu tố cùng lúc khiến khó xác định nguyên nhân chênh lệch. Vì vậy, nghiên cứu cần ưu tiên các thí nghiệm đối chứng, trình bày kết quả thuận lợi lẫn bất lợi và nêu rõ điều kiện áp dụng của từng kết luận.\par
+
+\subsection*{5.8. Hạn chế của thiết kế thực nghiệm}\addcontentsline{toc}{subsection}{5.8. Hạn chế của thiết kế thực nghiệm}
+
+Một lần chia train/test có thể nhạy với ngẫu nhiên. Lưới tham số hữu hạn
+và chỉ hai mô hình cổ điển chưa bao phủ tất cả phương án.
+
+Có thể bổ sung repeated cross-validation hoặc nhiều seed để ước lượng độ
+ổn định. Tuy nhiên, mọi mở rộng cần phân biệt với yêu cầu cốt lõi và
+không được chọn kết quả đẹp nhất sau nhiều lần nhìn test.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Giới hạn do lựa chọn thiết kế}\par
+Một lưới tham số hữu hạn chỉ khảo sát một phần không gian mô hình. Kết quả còn phụ thuộc cách chia dữ liệu, chiến lược kiểm định chéo và tiêu chí tối ưu. Việc sử dụng duy nhất MAE để chọn tham số có thể dẫn đến cấu hình khác với khi tối ưu RMSE. Để báo cáo có tính khái quát hơn, cần mô tả trước các quyết định thiết kế, sau đó thực hiện thí nghiệm nhạy cảm có kiểm soát. Mọi kết quả bổ sung cần được phân biệt với kết quả gốc.\par
+
+Các hướng phân tích bổ sung nên được tổ chức thành các giả thuyết riêng biệt và đánh giá bằng cùng độ đo. Việc thay đổi nhiều yếu tố cùng lúc khiến khó xác định nguyên nhân chênh lệch. Vì vậy, nghiên cứu cần ưu tiên các thí nghiệm đối chứng, trình bày kết quả thuận lợi lẫn bất lợi và nêu rõ điều kiện áp dụng của từng kết luận.\par
+
+\subsection*{5.9. Khuyến nghị triển khai}\addcontentsline{toc}{subsection}{5.9. Khuyến nghị triển khai}
+
+Nếu triển khai công cụ demo, giao diện nên hiển thị điểm dự đoán kèm
+thông báo đây là ước lượng từ dữ liệu hóa lý, không phải kết luận cảm
+quan chính thức.
+
+Nên giám sát phân phối đầu vào, ghi log dự đoán và kiểm tra dữ liệu mới
+khác biệt với dữ liệu huấn luyện. Khi xuất hiện drift, cần đánh giá lại
+mô hình trước khi sử dụng rộng rãi.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Các bước khi xây dựng bản demo}\par
+Một ứng dụng demo có thể tiếp nhận 11 phép đo hóa lý và thông tin loại rượu, kiểm tra giá trị đầu vào, thực hiện pipeline đã huấn luyện rồi hiển thị điểm dự đoán. Giao diện nên ghi rõ đây là ước lượng thống kê và có thể sai lệch so với đánh giá cảm quan. Cần lưu phiên bản mô hình, kiểm tra dữ liệu ngoài phạm vi huấn luyện và có cơ chế dừng sử dụng khi phát hiện bất thường. Những bước này thuộc định hướng triển khai, không phải chức năng đã được chứng minh trong mã nguồn hiện tại.\par
+
+Các hướng phân tích bổ sung nên được tổ chức thành các giả thuyết riêng biệt và đánh giá bằng cùng độ đo. Việc thay đổi nhiều yếu tố cùng lúc khiến khó xác định nguyên nhân chênh lệch. Vì vậy, nghiên cứu cần ưu tiên các thí nghiệm đối chứng, trình bày kết quả thuận lợi lẫn bất lợi và nêu rõ điều kiện áp dụng của từng kết luận.\par
+
+\subsection*{5.10. Đạo đức và tính minh bạch}\addcontentsline{toc}{subsection}{5.10. Đạo đức và tính minh bạch}
+
+Việc trình bày rõ nguồn dữ liệu, các quyết định tiền xử lý, siêu tham số
+và giới hạn mô hình giúp người đọc đánh giá mức tin cậy của kết quả.
+
+Nhóm phải công bố trung thực việc sử dụng công cụ AI, nguồn mã tham khảo
+và những phần chưa được thực nghiệm. Không đưa số liệu tự suy đoán vào
+bảng kết quả.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Trách nhiệm khi công bố kết quả}\par
+Báo cáo khoa học cần phân biệt dữ liệu thực nghiệm, kết luận có căn cứ và đề xuất chưa kiểm chứng. Khi sử dụng công cụ AI để hỗ trợ biên tập hoặc giải thích, nhóm vẫn phải chịu trách nhiệm kiểm tra nguồn, công thức và số liệu. Không nên tạo hình ảnh hoặc metric giả làm kết quả chạy. Các giới hạn của dữ liệu và sai số phải được trình bày rõ để người đọc không hiểu nhầm mô hình như một công cụ chứng nhận chất lượng sản phẩm.\par
+
+Các hướng phân tích bổ sung nên được tổ chức thành các giả thuyết riêng biệt và đánh giá bằng cùng độ đo. Việc thay đổi nhiều yếu tố cùng lúc khiến khó xác định nguyên nhân chênh lệch. Vì vậy, nghiên cứu cần ưu tiên các thí nghiệm đối chứng, trình bày kết quả thuận lợi lẫn bất lợi và nêu rõ điều kiện áp dụng của từng kết luận.\par
+
+\clearpage
+\section*{CHƯƠNG 6. TỔNG KẾT VÀ HƯỚNG PHÁT TRIỂN}\addcontentsline{toc}{section}{CHƯƠNG 6. TỔNG KẾT VÀ HƯỚNG PHÁT TRIỂN}
+
+\subsection*{6.1. Tổng kết quy trình}\addcontentsline{toc}{subsection}{6.1. Tổng kết quy trình}
+
+Đề tài đã xác lập cách tiếp cận hồi quy đối với điểm chất lượng rượu
+vang và thiết kế pipeline đầy đủ từ dữ liệu UCI, EDA, tiền xử lý, biểu
+diễn đặc trưng, huấn luyện, kiểm định chéo, đánh giá đến phân tích lỗi.
+
+Bản báo cáo nguồn cung cấp bảng kết quả cho baseline và bốn cấu hình.
+K-NN luồng A có MAE kiểm thử 0,4019, RMSE 0,6112 và R² = 0,4942; đây là
+cấu hình có CV MAE thấp nhất trong bảng đã trình bày. Nhóm cần tái chạy
+để xác nhận các giá trị trước khi nộp.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Bài học từ quy trình thực nghiệm}\par
+Kết quả quan trọng của một bài tập học máy không chỉ là giá trị MAE thấp mà còn là khả năng giải thích đường đi từ dữ liệu đến dự đoán. Việc đặt phép biến đổi trong pipeline, kiểm định chéo trên train và đánh giá độc lập trên test tạo ra quy trình có thể kiểm tra. Khi trình bày kết luận, cần nhắc lại giới hạn của một lần chia dữ liệu và phân biệt giữa hiệu quả quan sát được với khả năng áp dụng rộng rãi.\par
+
+Việc phát triển tiếp theo cần duy trì nguyên tắc tái lập: giữ dữ liệu nguồn, ghi phiên bản môi trường và lưu mã nguồn của mỗi thí nghiệm. Khi có kết quả mới, cần cập nhật bảng số liệu và phân tích thay vì chỉ sửa lời kết luận. Cách làm này giúp sản phẩm vừa đáp ứng mục tiêu học phần vừa có nền tảng cho nghiên cứu sâu hơn.\par
+
+\subsection*{6.2. Đóng góp và phạm vi công việc của nhóm}\addcontentsline{toc}{subsection}{6.2. Đóng góp và phạm vi công việc của nhóm}
+
+Sản phẩm hướng tới một bộ thí nghiệm có thể tái tạo, minh bạch về tách
+dữ liệu và hạn chế leakage. Việc so sánh A/B cho phép xem xét tác động
+của thay đổi tiền xử lý trong hai thuật toán cơ bản.
+
+Đóng góp quan trọng nhất không phải đạt một con số điểm cao mà là giải
+thích được nguyên nhân và giới hạn của kết quả. Điều này phù hợp mục
+tiêu học phần Nhập môn học máy.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Giá trị của việc phân công có kiểm chứng}\par
+Trong một dự án nhóm, các nhiệm vụ thu thập dữ liệu, phân tích khám phá, xây dựng pipeline, tối ưu mô hình và viết báo cáo có liên hệ chặt chẽ. Việc phân công rõ ràng giúp giảm trùng lặp và xác định người chịu trách nhiệm kiểm tra từng đầu ra. Tuy nhiên, bảng phân công chỉ có ý nghĩa khi phản ánh công việc thực tế và được hỗ trợ bởi mã nguồn, lịch sử phiên bản hoặc nhật ký thực nghiệm. Các thành viên nên cùng hiểu quy trình tổng thể để có thể giải thích khi bảo vệ bài.\par
+
+Việc phát triển tiếp theo cần duy trì nguyên tắc tái lập: giữ dữ liệu nguồn, ghi phiên bản môi trường và lưu mã nguồn của mỗi thí nghiệm. Khi có kết quả mới, cần cập nhật bảng số liệu và phân tích thay vì chỉ sửa lời kết luận. Cách làm này giúp sản phẩm vừa đáp ứng mục tiêu học phần vừa có nền tảng cho nghiên cứu sâu hơn.\par
+
+\subsection*{6.3. Hướng phát triển ngắn hạn}\addcontentsline{toc}{subsection}{6.3. Hướng phát triển ngắn hạn}
+
+Nhóm có thể chạy ablation riêng từng bước xử lý, kiểm tra MAE theo nhóm
+điểm và theo loại rượu, và lặp lại thí nghiệm qua nhiều random seed.
+
+Các mở rộng này cải thiện độ tin cậy mà không làm thay đổi bản chất bài
+toán. Nên ưu tiên hoàn thiện những yêu cầu bắt buộc trước khi bổ sung mô
+hình phức tạp.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Ưu tiên mở rộng có kiểm soát}\par
+Các bước phát triển ngắn hạn nên ưu tiên kiểm tra độ tin cậy trước khi thử mô hình phức tạp. Có thể bắt đầu bằng kiểm tra dữ liệu trùng, phân tích MAE theo nhóm điểm và loại rượu, rồi lặp lại thí nghiệm với nhiều seed. Tiếp theo, thực hiện ablation để xác định vai trò của từng bước tiền xử lý. Mỗi thí nghiệm cần có giả thuyết, cấu hình, độ đo và tệp kết quả riêng để tránh trộn lẫn kết luận.\par
+
+Việc phát triển tiếp theo cần duy trì nguyên tắc tái lập: giữ dữ liệu nguồn, ghi phiên bản môi trường và lưu mã nguồn của mỗi thí nghiệm. Khi có kết quả mới, cần cập nhật bảng số liệu và phân tích thay vì chỉ sửa lời kết luận. Cách làm này giúp sản phẩm vừa đáp ứng mục tiêu học phần vừa có nền tảng cho nghiên cứu sâu hơn.\par
+
+\subsection*{6.4. Hướng phát triển dài hạn}\addcontentsline{toc}{subsection}{6.4. Hướng phát triển dài hạn}
+
+Có thể nghiên cứu các kỹ thuật chọn đặc trưng nâng cao, ensemble hoặc
+giao diện demo, với điều kiện nhóm có đủ thời gian kiểm chứng và giải
+thích được phương pháp.
+
+Nếu triển khai thực tế, cần thu thập thêm dữ liệu đại diện, thiết kế
+giám sát drift và đánh giá theo điều kiện ứng dụng cụ thể. Không nên sử
+dụng mô hình như công cụ thay thế đánh giá chất lượng chính thức.
+
+
+\par\noindent\textbf{Bổ sung lý thuyết -- Điều kiện để ứng dụng trong thực tế}\par
+Một hệ thống dự đoán vận hành thực tế cần dữ liệu mới đại diện cho môi trường sử dụng, quy trình cập nhật mô hình và tiêu chí giám sát chất lượng. Các kỹ thuật ensemble hoặc lựa chọn đặc trưng nâng cao có thể được nghiên cứu, nhưng không bảo đảm cải thiện nếu không được đánh giá khách quan. Khi phân phối đầu vào thay đổi, hệ thống cần cảnh báo và đánh giá lại. Kết quả dự đoán nên hỗ trợ chuyên gia thay vì thay thế quyết định cảm quan hoặc tiêu chuẩn an toàn.\par
+
+Việc phát triển tiếp theo cần duy trì nguyên tắc tái lập: giữ dữ liệu nguồn, ghi phiên bản môi trường và lưu mã nguồn của mỗi thí nghiệm. Khi có kết quả mới, cần cập nhật bảng số liệu và phân tích thay vì chỉ sửa lời kết luận. Cách làm này giúp sản phẩm vừa đáp ứng mục tiêu học phần vừa có nền tảng cho nghiên cứu sâu hơn.\par
+
+\section*{PHỤ LỤC A. HƯỚNG DẪN CHẠY VÀ TÁI LẬP}\addcontentsline{toc}{section}{PHỤ LỤC A. HƯỚNG DẪN CHẠY VÀ TÁI LẬP}
+
+\subsection*{A.1. Cài đặt môi trường}\addcontentsline{toc}{subsection}{A.1. Cài đặt môi trường}
+
+Cài Python phiên bản tương thích, tạo môi trường ảo, cài các thư viện từ
+requirements.txt. Đảm bảo kết nối mạng để tải hai tệp dữ liệu từ UCI ở
+lần chạy đầu tiên.
+
+Nếu mạng hạn chế, tải hai CSV từ trang UCI và đặt trong data/. Không đổi
+tên tệp và giữ dấu phân cách chấm phẩy để chương trình đọc đúng.
+
+\subsection*{A.2. Thực hiện chương trình}\addcontentsline{toc}{subsection}{A.2. Thực hiện chương trình}
+
+Từ thư mục dự án, chạy lệnh python src/train.py --data-dir data
+--out-dir results. Chương trình sẽ thực hiện EDA, chia dữ liệu, tìm tham
+số và xuất kết quả.
+
+Thời gian chạy phụ thuộc cấu hình máy, số fold và số tổ hợp siêu tham
+số. Không nên đóng chương trình trước khi tất cả mô hình được đánh giá.
+
+\subsection*{A.3. Đọc kết quả}\addcontentsline{toc}{subsection}{A.3. Đọc kết quả}
+
+Tệp metrics.csv chứa năm dòng, gồm baseline và bốn tổ hợp mô
+hình--pipeline và các cột CV MAE, test MAE, test RMSE, test R2,
+best\_params. Tệp run\_metadata.json ghi thông tin chia dữ liệu.
+
+Tệp prediction\_errors.csv hỗ trợ phân tích lỗi; các hình PNG minh họa
+phân phối nhãn, so sánh MAE và sai số. Nhóm cần đưa kết quả và hình thực
+tế vào Chương 4.
+
+\section*{PHỤ LỤC B. PHÂN CÔNG NHÓM VÀ KHAI BÁO AI}\addcontentsline{toc}{section}{PHỤ LỤC B. PHÂN CÔNG NHÓM VÀ KHAI BÁO AI}
+
+\subsection*{B.1. Thông tin thành viên và phân công đề xuất}\addcontentsline{toc}{subsection}{B.1. Thông tin thành viên và phân công đề xuất}
+
+Thành viên nhóm: Phạm Danh Thái (MSSV 1871020523), Ngô Văn Hiếu
+(1871020234), Phạm Anh Quân (1871020471); lớp CNTT 1809. Thông tin thành
+viên đã được nhóm xác nhận.
+
+Phân công đề xuất, cần nhóm xác nhận theo công việc thực tế: Phạm Danh
+Thái --- tổng hợp yêu cầu, EDA và báo cáo; Ngô Văn Hiếu --- tiền xử lý,
+pipeline và mô hình K-NN; Phạm Anh Quân --- Decision Tree, đánh giá,
+phân tích lỗi và chuẩn bị minh chứng. Lịch sử commit GitHub phải phản
+ánh đóng góp thực tế.
+
+\subsection*{B.2. Khai báo sử dụng công cụ AI}\addcontentsline{toc}{subsection}{B.2. Khai báo sử dụng công cụ AI}
+
+Nhóm sử dụng công cụ AI để hỗ trợ tổ chức dàn ý báo cáo LaTeX, đề xuất
+mã nguồn và giải thích các bước của quy trình học máy. Các kết quả thực
+nghiệm được lấy từ thư mục results do người thực hiện cung cấp; công cụ
+AI hỗ trợ biên tập và diễn giải, không tạo số liệu thực nghiệm.
+
+\section*{TÀI LIỆU THAM KHẢO}\addcontentsline{toc}{section}{TÀI LIỆU THAM KHẢO}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  ThS. Lê Thị Thùy Trang. \emph{Hướng dẫn thực hiện bài tập lớn học phần
+  Nhập môn học máy}, năm học 2026--2027, FIT4013.
+\item
+  Cortez, P., Cerdeira, A., Almeida, F., Matos, T., Reis, J. (2009).
+  Modeling wine preferences by data mining from physicochemical
+  properties. \emph{Decision Support Systems}, 47(4), 547--553.
+\item
+  UCI Machine Learning Repository. \emph{Wine Quality Dataset}.
+  https://archive.ics.uci.edu/dataset/186/wine+quality.
+\item
+  Pedregosa, F. et al. (2011). Scikit-learn: Machine Learning in Python.
+  \emph{Journal of Machine Learning Research}, 12, 2825--2830.
+\item
+  Scikit-learn developers. \emph{User Guide: Pipelines, Model Selection,
+  Regression Metrics}. https://scikit-learn.org/stable/user\_guide.html.
+\end{enumerate}
+
+\end{document}
