@@ -1,4 +1,4 @@
-﻿Mô hình,Phương án,CV MAE,Test MAE,Test RMSE,Test R²,Tham số tốt nhất
+﻿Mô hình,Phương án,CV MAE,Test MAE,Test RMSE,Test R²,Tham số tốt nhấtt
 KNN,A,0.42559841636791695,0.4019291145033136,0.6112102502210007,0.4941715304819644,"{""model__n_neighbors"": 15, ""model__weights"": ""distance""}"
 KNN,B,0.4352266558983211,0.41366339831746674,0.6249034790209328,0.47125302434954097,"{""model__n_neighbors"": 15, ""model__weights"": ""distance""}"
 Cây quyết định,A,0.504713296809062,0.5015384615384615,0.8439832298734924,0.03552795190298563,"{""model__max_depth"": null, ""model__min_samples_leaf"": 1}"
